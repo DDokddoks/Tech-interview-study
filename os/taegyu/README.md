@@ -18,27 +18,35 @@
   > 3. 운영체제 프로그램 실행이 시작된다. 
 
 - 시스템 콜에 대해 설명하세요
-  > 사용자(응용프로그램)가 운영체제(커널)의 서비스를 사용할 수 있도록 하는 인터페이스이다. 특정 저수준 작업은 어셈블리 언어로, 대부분은 C, C++ 같은 HLL로 작성된 함수 형태로 제공된다. 시스템 콜의 종류는 크게 프로세스 제어, 파일 조작, 장치 조작, 정보 유지 보수, 커뮤니케이션, 보안으로 묶인다. 
+  > 사용자(응용프로그램)가 운영체제(커널)의 서비스를 사용할 수 있도록 하는 인터페이스이다. 특정 저수준 작업은 어셈블리 언어로, 대부분은 C, C++ 같은 HLL로 작성된 함수 형태로 제공된다.  
+  > 시스템 콜의 종류는 크게 프로세스 제어, 파일 조작, 장치 조작, 정보 유지 보수, 커뮤니케이션, 보안으로 묶인다. 
 
-- 멀티 프로세싱과 멀티프로그래밍의 차이는?
-  > 
+- 멀티프로세싱과 멀티프로그래밍의 차이는?
+  > * __멀티프로세싱__ : 다수의 프로세서(CPU)가 다수의 프로세스를 서로 협력적으로 처리하는 것, 프로그램을 더 빨리 처리하기 위함이 목적
+  > * __멀티프로그래밍__ : 단일 프로세서(CPU)가 다수의 프로세스가 동시에 처리하는 것, CPU의 활용도를 최대화하기 위함이 목적
 
 - 메모리 계층 구조의 순서가 어떻게 되는가? CPU에서 가까운 순으로 말해보시오.
-  > 레지스터 - 캐시 - 메인 메모리 - 비휘발성 메모리 - 하드 디스크 드라이브 - 광학 디스크 - 자기 테이프 순이다.
+  > 레지스터 - 캐시 - 메인 메모리 - 비휘발성 메모리 - 하드 디스크 드라이브 - 광학 디스크 - 자기 테이프 순이다.  
 
+----------------------------------------------------------------------------------------------------------------
+  
 ### ⚡️ Chapter 3. Processes
 
 - Heap과 Stack의 차이점은 무엇인가요?
-  >
+  > * __Heap__ : FIFO, 프로그램의 런타임 중에 동적으로 할당되는 메모리가 저장되는 영역이다.  
+  > * __Stack__ : LIFO, 함수 호출 시 함수 파라미터, return 주소, 지역 변수 등 임시 데이터의 저장장소이다. 
 
 - 프로세스에 할당되는 메모리의 각 영역에 대해서 설명해 주세요.
-  >
+  > * __Text__ : Code 혹은 Instruction 영역이라고도 하며, 프로그램 코드가 저장되어 있다. 고정 크기이다.
+  > * __Data__ : 전역 변수를 저장하고 있는 영역이다. 고정 크기이다.
+  > * __Heap__ : 프로그램의 런타임 중에 동적으로 할당되는 메모리가 저장되는 영역이다. 가변 크기이다.
+  > * __Stack__ : 함수 호출 시 함수 파라미터, return 주소, 지역 변수 등 임시 데이터의 저장장소이다. 가변 크기이다.
 
 - 프로세스와 그 특징에 대해 설명하세요
-  >
+  > 
 
 - 프로세스가 종료되는 두 가지 조건은?
-  >
+  > 
 
 - 인터럽트 발생 처리과정을 설명하세요.
   >
@@ -47,7 +55,7 @@
   >
 
 - 프로세스의 생성 과정에 대해 설명해보세요.
-  >
+  > 
 
 - IPC의 통신 과정 설명하세요.
   >
@@ -59,7 +67,16 @@
   >
 
 - 프로세스 제어블록에는 어떤 정보가 담겨있나요?
-  >
+  > * **Process number** : 프로세스 id (pid)
+  > * **Process state** : new / ready / running / waiting / terminate / halted 등 프로세스의 상태
+  > * **Program counter** : process가 다음으로 실행할 instruction의 주소
+  > * **CPU registers** : AC, IR, DR, SR, General-purpose register, condition code 등의 레지스터 정보  
+  > * **CPU-scheduling information** : process 우선순위, scheduling queue의 포인터 등
+  > * **Memory-management information** : base/limit register의 값, page table/segment table 정보 등 
+  > * **Accounting information** : CPU 사용 시간, 계정번호 등 
+  > * **I/O State information** : 열린 파일들의 리스트, 이 process에 할당된 I/O 장치들
 
 - child process, orphan process, zombie process에 대해 설명해 보시오.
-  >
+  > * __child process__ : 어떤 process에서 fork() 시스템 콜을 호출하여 새롭게 생성된 process를 의미, 이때 fork()를 호출한 process는 parent process라고 한다.  
+  > * __orphan process__ : 자식 프로세스가 exit() 시스템 콜을 호출하여 종료되면 사용하던 자원과 메모리는 운영체제로 반환되지만 프로세스 id와 프로세스 종료 상태 등의 정보가 프로세스 테이블에 남아있게 되는데, parent process에서 wait() 시스템 콜을 호출함으로써 자식 프로세서의 종료 상태를 회수하면 남아있던 정보까지 운영체제로 반환된다. 그러나 parent process가 wait()을 호출하지 않고 자식 프로세스보다 먼저 종료해버린 경우에 child process가 완전히 종료되지 못하고 남아있게 되는데 이때 child process를 orphan process라고 한다. UNIX 시스템에선 이 상태를 orphan process의 parent를 모든 process의 상위 프로세스인 init process로 설정하고 wait()를 호출함으로써 해결한다.  
+  > * __zombie process__ : 자신은 종료되었지만, parent prcess가 아직 wait()를 호출하지 않은 상태일 때의 child process를 의미한다. 모든 프로세스는 아주 짧은 시간이나마 zombie process 상태를 머무르게 된다. zombie process를 활용하여 daemon process(background process)를 만들 때 쓰이기도 한다. 
