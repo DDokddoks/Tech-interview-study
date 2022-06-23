@@ -3,6 +3,7 @@
 ### ⚡️ Chapter 1-2. Introduction & OS Stuructures
 
 - 운영체제란 무엇인가?
+  > 랄랄랄라
 
 - 운영체제의 주요 목적은?
 
