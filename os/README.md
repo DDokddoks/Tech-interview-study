@@ -138,3 +138,19 @@
   > **child process** : 부모 프로세스가 fork() 시스템 콜을 호출하면서 만들어진 프로세스로 부모의 프로세스의 복제 프로세스이다.  
   > **orphan process** : parent process가 wait()을 호출하지 않고 자식 프로세스보다 먼저 종료해버린 경우에 child process가 완전히 종료되지 못하고 남아있게 되는데 이때 child process를 orphan process라고 한다.  
   > **zombie process** : 자신은 종료되었지만, parent process가 아직 wait()를 호출하지 않은 상태일 때의 child process를 의미한다. 모든 프로세스는 아주 짧은 시간이나마 zombie process 상태를 머무르게 된다. zombie process를 활용하여 daemon process(background process)를 만들 때 쓰이기도 한다.
+
+- 프로세스와 쓰레드의 차이를 설명해보세요
+
+- 크롬 탭이 프로세스인지 쓰레드인지 설명해보세요
+
+- 멀티 스레딩(Multi-threading) 의 장점과 단점은?
+
+- 멀티 프로세스 대신 멀티 스레드를 사용하는 이유는 무엇입니까?
+
+- 프로세스 혹은 스레드의 동기화란 무엇인가요?
+
+- 사용자 수준의 스레드와 커널 수준의 스레드의 차이는 무엇인가요?
+
+- 스레드 풀링이란 무엇이고 장점은?
+
+- 멀티 프로세스와 멀티 스레드 각각의 장단점
