@@ -208,13 +208,42 @@
  
 - CPU 스케줄링이란 무엇인가요?  
 
+  > CPU 스케줄링이란 프로세스가 작업을 수행할 때, 언제 어떤 프로세스에 CPU를 할당할지를 결정하는 방법으로 CPU를 효율적으로 사용할 수 있도록 한다.
+
 - CPU Scheduling은 언제 발생하는가?  
+
+  > CPU 스케줄링은 네 가지 상태에서 발생할 수 있다.
+  > 1) **Running → Waiting(Blocked)** : I/O 요청이나 자식의 종료를 위해 wait( ) 함수 호출한 경우
+  > 2) **Running → Ready** : 인터럽트가 발생한 경우
+  > 3) **Waiting → Ready** : I/O 작업이 끝난 경우
+  > 4) **Terminate**  
+  > 이때, 비선점형 스케줄링은 1과 4의 경우일 때 스케줄링이 발생하지만, 선점형 스케줄링은 1,2,3,4 모두에서 발생 가능하다.
 
 - CPU 스케줄링 종류와 방법에는 대표적으로 어떤 것들이 있나요?  
 
+  > - **FCFS(First-Come First-Served) Scheduling**  
+  >    CPU를 먼저 요청한 프로세스 순서대로 먼저 CPU를 할당받는 비선점형 알고리즘이다.  
+  > - **SJF(Shortest-Job-First) Scheduling**  
+   CPU burst time이 가장 짧은 프로세스에게 먼저 CPU를 할당해주는 알고리즘 방식으로 Preemptive / Non-preemptive 모두 가능하다. 이때 선점형 SJF 방식은 SRTF라 하며 최소의 평균 대기 시간(optimal)을 보장하지만, starvation 현상이 발생할 수 있다.  
+  > - **Priority Scheduling**  
+    각 프로세스에 우선순위를 부여하고, 가장 높은 우선순위를 가진 프로세스에 CPU를 할당하는 방식으로 Preemptive / Non-preemptive 모두 가능하다. 이때도 기아(starvation) 현상이 발생할 수 있는데 에이징(aging) 기법으로 해결 가능하다. 
+  > - **RR(Round-Robin) Scheduling**  
+    각 프로세스에는 일정한 할당시간(time quantum)동안 CPU를 사용하고 할당 시간이 지나면 선점당하고 다시 ready queue로 들어가는 선점형 스케줄링 알고리즘이다. RR 스케줄링의 성능은 quantum 값에 따라 달라지는데, 해당 값이 너무 커지면 FCFS가 되고, 반대로 너무 작아지면 불필요한 context switching이 많이 발생해 오버헤드가 커진다.  
+  > - **Multilevel Queue**    
+    Ready queue를 여러 개로 분할하고, 각 큐는 독립적인 스케줄링 알고리즘(Intra-Queue Scheduling)을 갖게 되며, 큐들 사이에도 스케줄링(Inter-Queue Scheduling)이 이루어진다.   
+  > - **Multilevel Feedback Queue**  
+    MLQ에서 한 프로세스는 영구적으로 특정 큐에 할당되어 다른 큐로 이동하지 못하는 것과 달리, 프로세스가 큐들 사이를 이동할 수 있는 알고리즘이다. 이때 CPU burst의 성격에 따라 어느 큐에 들어갈지를 구분한다. (I/O bound process에 가까울수록 높은 우선순위)   
+
 - Starvation이란?  
+
+  > 계속해서 우선순위가 높은 프로세스가 새로 들어오면서, 상대적으로 우선순위가 낮은 프로세스가 CPU를 계속 할당받지 못하고 무한으로 대기하는 상태를 의미한다. 
 
 - Aging이란?  
 
+  > Starvation Problem의 해결방안으로, 시간이 지날수록 프로세스의 우선순위를 점진적으로 높이는 방식이다. 따라서 모든 프로세스는 언젠가 가장 높은 우선순위를 가지게 되므로 무한 대기가 발생하지 않는다.
+
 - Preemptive Scheduling과 Non-preemptive Scheduling의 차이점?  
+
+  > - Preemptive Scheduling : CPU 스케줄러가 CPU를 선점하고 있는 프로세스를 중단시키고 다른 프로세스에게 CPU를 할당하는 방법이다.
+  > - Non-preemptive Scheduling : 프로세스가 한번 CPU를 선점하면 프로세스가 block(wait) 상태로 바뀌거나 실행이 끝났을 때만 다른 프로세스로 CPU를 할당 가능하고, Preemptive Scheduling과 달리 지연되는 경우가 있어 응답시간이 평균적으로 길다.
 
