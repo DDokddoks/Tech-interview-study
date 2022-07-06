@@ -34,7 +34,7 @@
 - 메모리 계층 구조의 순서가 어떻게 되는가? CPU에서 가까운 순으로 말해보시오.
   > 레지스터 → 캐시 → 메인메모리 → 비휘발성메모리 → 하드디스크 드라이브 → 광학 디스크 → 자기 테이프
 
-
+---
 
 ### ⚡️ Chapter 3. Processes
 
@@ -103,4 +103,47 @@
   > - child process → 다른 프로세스에 의해 생성된 프로세스
   > - zombie process → 자식 프로세스가 종료되었는데, 부모 프로세스가 자식 프로세스가 반환한 정보를 회수하지 않으면 자식 프로세스는 종료되었음에도 정보가 메모리에 남아 있는 좀비 프로세스가 된다. 
   > - orphan process → 부모 프로세스가 자식 프로세스보다 먼저 종료되면 자식 프로세스는 고아 프로세스가 된다.
+  
+  ---
 
+### ⚡️ Chapter 5. CPU Scheduling
+ 
+- CPU 스케줄링이란 무엇인가요?  
+
+  > 메인 메모리에서 실행 중인 프로세스에게 CPU를 효율적으로 할당하는 것을 의미한다.
+
+- CPU Scheduling은 언제 발생하는가?  
+
+  > CPU 스케줄링은 네 가지 상태에서 발생할 수 있다.
+  > 1) **Running → Waiting(Blocked)** : I/O 요청이나 자식의 종료를 위해 wait( ) 함수 호출한 경우
+  > 2) **Running → Ready** : 인터럽트가 발생한 경우
+  > 3) **Waiting → Ready** : I/O 작업이 끝난 경우
+  > 4) **Terminate**  
+  > 이때, 비선점형 스케줄링은 1과 4의 경우일 때 스케줄링이 발생하지만, 선점형 스케줄링은 1,2,3,4 모두에서 발생 가능하다.
+
+- CPU 스케줄링 종류와 방법에는 대표적으로 어떤 것들이 있나요?  
+
+  > 1) **FCFS Scheduling**  
+  >    - CPU에 먼저 도착하는 순서대로 프로세스를 할당해주는 방식으로, 비선점형 방식이며 Convoy Effect가 발생 가능하다는 문제가 있다.  
+  > 2) **SJF(Shortest-Job-First) Scheduling**
+  >    - 프로세스의 수행 시간이 짧은 순서대로 CPU에 할당하는 방식으로 선점형과 비선점형 두 방식이 존재한다. 이때 선점형 SJF 방식은 SRTF라 하며 최소의 평균 대기 시간(optimal)을 보장하지만, starvation 현상이 발생할 수 있다.  
+  > 3) **Priority Scheduling**
+  >    - 프로세스에게 우선순위를 부여해 우선순위가 높은 프로세스에게 CPU를 할당하는 방식이다. SJF도 일종의 우선순위 스케줄링이 되며, 이때도 기아 현상이 발생할 수 있는데 에이징(Aging) 기법으로 해결 가능하다.  
+  > 4) **Round-Robin Scheduling**
+  >     - 선점형 스케줄링 방식 중 하나로, 모든 프로세스가 같은 우선순위를 가지고 time slice(time quantum)를 기반으로 스케줄링한다. RR 스케줄링의 성능은 quantum 값에 따라 달라지는데, 해당 값이 너무 커지면 FCFS가 되고, 반대로 너무 작아지면 불필요한 context switching이 많이 발생해 효율이 떨어진다.  
+  > 5) **Multilevel Queue**
+  >     - 다단계 큐 스케줄링은 ready queue를 여러 개로 분할하고, 각 큐는 독립적인 스케줄링 알고리즘을 갖게 된다. queue들 사이의 스케줄링은 Fixed priority scheduling과 time slice 두 가지 방식이 존재한다.  
+  > 6) **Multilevel Feedback Queue**
+  >     - Multilevel Queue 방식에 프로세스가 다른 큐로 이동 가능하다는 조건이 추가된 스케줄링 알고리즘이다. aging을 이와 같은 방식으로 구현할 수 있다.  
+
+- Starvation이란?  
+
+  > 특정 프로세스의 우선 순위가 낮아서 원하는 자원을 계속 할당받지 못하는 상태를 의미한다. 예로, SJF 방식에서 수행시간이 긴 작업이 계속 뒤로 밀려나게 된다.
+
+- Aging이란?  
+
+  > 에이징 기법은 시간이 지날수록 오래 대기한 프로세스의 우선순위를 높이는 방식을 의미한다.
+
+- Preemptive Scheduling과 Non-preemptive Scheduling의 차이점?  
+
+  > Non-preemptive Scheduling은 프로세스가 block(wait) 상태로 바뀌거나 실행이 끝났을 때만 다른 프로세스로 교체 가능하지만, Preemptive Scheduling은 프로세스 실행 중에 이를 중단시키고 다른 프로세스로 교체할 수 있다. 이때, Non-preemptive Scheduling은 Preemptive Scheduling과 달리 지연되는 경우가 있어 응답시간이 평균적으로 길다. 
