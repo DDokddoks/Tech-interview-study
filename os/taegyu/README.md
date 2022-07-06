@@ -92,3 +92,102 @@
   > * __child process__ : 어떤 process에서 fork() 시스템 콜을 호출하여 새롭게 생성된 process를 의미, 이때 fork()를 호출한 process는 parent process라고 한다.  
   > * __orphan process__ : 자식 프로세스가 exit() 시스템 콜을 호출하여 종료되면 사용하던 자원과 메모리는 운영체제로 반환되지만 프로세스 id와 프로세스 종료 상태 등의 정보가 프로세스 테이블에 남아있게 되는데, parent process에서 wait() 시스템 콜을 호출함으로써 자식 프로세서의 종료 상태를 회수하면 남아있던 정보까지 운영체제로 반환된다. 그러나 parent process가 wait()을 호출하지 않고 자식 프로세스보다 먼저 종료해버린 경우에 child process가 완전히 종료되지 못하고 남아있게 되는데 이때 child process를 orphan process라고 한다. UNIX 시스템에선 이 상태를 orphan process의 parent를 모든 process의 상위 프로세스인 init process로 설정하고 wait()를 호출함으로써 해결한다.  
   > * __zombie process__ : 자신은 종료되었지만, parent prcess가 아직 wait()를 호출하지 않은 상태일 때의 child process를 의미한다. 모든 프로세스는 아주 짧은 시간이나마 zombie process 상태를 머무르게 된다. zombie process를 활용하여 daemon process(background process)를 만들 때 쓰이기도 한다. 
+
+### ⚡️ Chapter 4. Thread
+
+- 프로세스와 쓰레드의 차이를 설명해보세요
+
+  > 프로세스는 운영체제로부터 할당받는 작업의 단위(실행 중인 프로그램)이고, 스레드는 할당 받은 자원을 이용하는 실행 단위이다. 프로세스는 독립적인 메모리 영역을 할당받지만 스레드는 스택을 제외한 나머지 공간을 공유한다.
+
+- 크롬 탭이 프로세스인지 쓰레드인지 설명해보세요
+
+  > 크롬은 탭마다 PID를 가지고 있으니 Process이며 각 Tab마다 랜더링 정보나 기타 데이터를 따로 관리한다. 이로 인해 메모리를 많이 잡아먹기도 하지만 하나의 Tab에 오류가 생겼다고 모든 Tab에 영향을 끼치진 않는다.
+
+- 멀티 프로세스와 멀티 스레드 각각의 장단점
+
+  > - 멀티 프로세스
+  >   - 장점  
+  >     • 각 프로세스가 독립된 영역(code, data, stack, heap)을 갖고 있기 때문에 여러 자식 프로세스 중 하나에 문제가 발생해도 해당 프로세스에만 영향을 미친다.  
+• 메모리 침범 문제를 OS 차원에서 해결하므로 안전하다.  
+  >   - 단점  
+  >      • 작업량이 많아지면 context switching 시 오버헤드가 발생한다.  
+          • 프로세스 간의 복잡한 통신(IPC)가 필요하다.  
+  > - 멀티 스레드
+  >   - 장점  
+  >     • 메모리 공간, 시스템 자원의 효율성이 증가한다.  
+• context switching 시 교환해야 할 대상이 적으므로 비용이 적다.  
+• data, heap 영역을 이용해 데이터를 주고 받으므로 스레드 간 통신이 간단하다.  
+  >   - 단점  
+  >     • 서로 다른 스레드가 Stack을 제외한 메모리 공간을 공유하기 때문에 동기화 문제가 발생할 수 있다.  
+• 스레드 간의 자원 공유는 전역 변수(data segment)를 이용하므로 다른 스레드가 동시에 사용할 때 충돌이 발생할 수 있다.  
+• 하나의 스레드에 문제가 생기면 전체 스레드가 영향을 받는다.  
+• 주의 깊은 설계가 필요하며 디버깅이 까다롭다.  
+• 멀티 스레드의 단점은 critical section 기법을 통해 대비할 수 있다.  
+
+- 멀티 프로세스 대신 멀티 스레드를 사용하는 이유는 무엇입니까?
+
+  > - Responsiveness(응답성)
+  >    - 프로세스의 일부가 block 되어도, 지속적인 실행이 가능함
+  >  - Resource Sharing(자원 공유)
+  >    - 프로세스의 자원을 공유하여 shared memory와 message passing보다 용이
+  >  - Economy(경제)
+  >    - 프로세스 생성보다 효율적
+  >    - 스레드 스위칭이 context switching보다 오버헤드가 적음
+  >  - Scalability(확장성)
+  >     - 각 프로세스들을 thread 단위로 분할하여 실행함으로써 multiprocessor 구조에서 더 큰 이점을 얻을 수 있음
+
+- 사용자 수준의 스레드와 커널 수준의 스레드의 차이는 무엇인가요?
+
+  > - **User threads**
+  >   - user mode에서 사용되는 thread  
+  >   - kernel 위에서 kernel support 없이 관리  
+  >   - OS가 가진 CPU들을 자유롭게 사용할 수는 없음  
+  > - **kernel threads**
+  >   - kernel mode에서 사용되는 thread  
+  >   - OS가 직접 관리 및 지원  
+  >   - OS가 가진 CPU들을 자유롭게 사용할 수 있음  
+
+- 스레드 풀링이란 무엇이고 장점은?
+
+  > - Thread Pools
+  >   - 프로세스를 시작할 때 아예 일정한 수의 thread들을 미리 풀로 만들어 두는 것  
+  >   - 매번 사용되고 바로 폐기되는 스레드를 새로 생성하는 것은 시간 낭비  
+  >   - 개수의 한계 없이 모든 요청에서 새 스레드를 생성하면 CPU 시간, 메모리 공간 등 자원이 고갈될 수 있기 때문  
+  > - 장점
+  >   - 새 스레드를 만들어 주기보다 기존 스레드로 서비스해 주는 것이 종종 더 빠르다.  
+  >   - 스레드 풀은 임의 시각에 존재할 스레드 개수에 제한을 둔다. 이러한 제한은 많은 수의 스레드를 병렬 처리할 수 없는 시스템에 도움이 된다.  
+  >   - 태스크를 생성하는 방법을 태스크로부터 분리하면 태스크를 실행을 다르게 할 수 있다. 예를 들어 태스크를 일정 시간 후에 실행되도록 스케줄 하거나 혹은 주기적으로 실행시킬 수 있다.  
+  
+### ⚡️ Chapter 5. CPU Scheduling
+ 
+- CPU 스케줄링이란 무엇인가요?  
+  > Multiprogrammed OS의 기본이 되는 것, 어떤 프로세스가 대기해야 할 경우, OS가 CPU를 그 프로세스로부터 회수하고 다른 프로세스에 할당하여 **CPU를 쉬지 않도록 바쁘게 유지하여 CPU의 이용률을 최대화하는 것**
+
+- CPU Scheduling은 언제 발생하는가?  
+  > case1. Running state -> Waiting State  
+  >   ex) I/O 요청, 자식 프로세스의 종료를 기다리기 위해 wait() 호출
+  > case2. Running state -> Ready state  
+  >   ex) interrupt 발생 시  
+  > case3. Waiting state -> Ready state  
+  >   ex) I/O 종료 시  
+  > case4. Terminate  
+  > - case1 & 4의 경우, 프로세스가 스스로 CPU를 release 하는 상황 -> 무조건 Non-preemptive  
+  > - case2 & 3의 경우, ready queue에 새로운 프로세스가 추가되는 상황 -> Preemptive / Non-preemptive 선택
+
+- CPU 스케줄링 종류와 방법에는 대표적으로 어떤 것들이 있나요?  
+  > - **FCFS Scheduling** : First Come, First Served. 가장 단순한 스케줄링 알고리즘으로, CPU를 먼저 요청한 프로세스가 먼저 CPU를 할당받으며 Non-preemptive
+  > - **SJF Scheduling** : Shortest Job First. 가장 작은 '다음 CPU burst'를 가진 프로세스가 CPU를 할당받으며, Preemptive / Non-preemptive 모두 가능(Preemptive인 SJF Scheduling을 SRTF(Shortest Remaing Time First)라고 함)
+  > - **RR Scheduling** : Round Robin. Time quantum(시간 할당량)을 가진 preemptive FCFS Scheduling으로, 한 프로세스가 한 번에 한 time quantum 만큼만 CPU를 사용하고 자발적으로 CPU release. Preemptive
+  > - **Priority-based Scheduling** : 각 프로세스에 우선순위를 부여하고, 가장 높은 우선순위를 가진 프로세스에 CPU를 할당. Preemptive / Non-preemptive 모두 가능. Starvation Problem이 발생할 수 있고, 이를 Aging으로 해결
+  > - **MLQ Scheduling** : Multi-Level Queue. 별도의 우선순위를 가진 여러 개의 큐를 두어, 각각의 큐 내에서 스케줄링(Intra-Queue Scheduling) and 큐들끼리의 스케줄링(Inter-Queue Scheduling)이 이뤄짐
+  > - **MLFQ Scheduling** : Multi-Level Feedback Scheduling. MLQ에서 한 프로세스는 영구적으로 특정 큐에 할당되어 다른 큐로 이동하지 못하는 것과 달리, 프로세스가 큐들 사이를 이동할 수 있음. CPU burst의 성격에 따라 어느 큐에 들어갈지를 구분(I/O bound process에 가까울수록 높은 우선순위)
+
+- Starvation이란?  
+  > 계속해서 우선순위가 높은 프로세스가 새로 들어오면 우선순위가 낮은 프로세스는 CPU를 할당받지 못하고 무한으로 대기하는 문제
+
+- Aging이란?  
+  > 오랫동안 시스템에서 대기하는 프로세스들의 우선순위를 점진적으로 증가, 모든 프로세스는 언젠가 가장 높은 우선순위를 가지게 되므로, 무한 대기가 발생하지 않음 
+
+- Preemptive Scheduling과 Non-preemptive Scheduling의 차이점?  
+  > - **Preemptive** : 스케줄러가 CPU를 선점하고 있는 프로세스를 내보내고 다른 프로세스로 할당 가능, 복잡하지만 짧은 평균대기 시간을 보장한다는 
+  > - **Non-preemptive** : 한번 프로세스가 CPU를 선점하면, 스스로 나올 때까지 종료/대기상태로 전환 불가, 단순하지만 평균대기 시간이 길어지는 단점
