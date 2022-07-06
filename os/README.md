@@ -139,6 +139,8 @@
   > **orphan process** : parent process가 wait()을 호출하지 않고 자식 프로세스보다 먼저 종료해버린 경우에 child process가 완전히 종료되지 못하고 남아있게 되는데 이때 child process를 orphan process라고 한다.  
   > **zombie process** : 자신은 종료되었지만, parent process가 아직 wait()를 호출하지 않은 상태일 때의 child process를 의미한다. 모든 프로세스는 아주 짧은 시간이나마 zombie process 상태를 머무르게 된다. zombie process를 활용하여 daemon process(background process)를 만들 때 쓰이기도 한다.
 
+### ⚡️ Chapter 4. Thread
+
 - 프로세스와 쓰레드의 차이를 설명해보세요
 
   > 프로세스는 운영체제로부터 할당받는 작업의 단위(실행 중인 프로그램)이고, 스레드는 할당 받은 자원을 이용하는 실행 단위이다. 프로세스는 독립적인 메모리 영역을 할당받지만 스레드는 스택을 제외한 나머지 공간을 공유한다.
@@ -201,3 +203,18 @@
   >   - 새 스레드를 만들어 주기보다 기존 스레드로 서비스해 주는 것이 종종 더 빠르다.  
   >   - 스레드 풀은 임의 시각에 존재할 스레드 개수에 제한을 둔다. 이러한 제한은 많은 수의 스레드를 병렬 처리할 수 없는 시스템에 도움이 된다.  
   >   - 태스크를 생성하는 방법을 태스크로부터 분리하면 태스크를 실행을 다르게 할 수 있다. 예를 들어 태스크를 일정 시간 후에 실행되도록 스케줄 하거나 혹은 주기적으로 실행시킬 수 있다.  
+  
+### ⚡️ Chapter 5. CPU Scheduling
+ 
+- CPU 스케줄링이란 무엇인가요?  
+
+- CPU Scheduling은 언제 발생하는가?  
+
+- CPU 스케줄링 종류와 방법에는 대표적으로 어떤 것들이 있나요?  
+
+- Starvation이란?  
+
+- Aging이란?  
+
+- Preemptive Scheduling과 Non-preemptive Scheduling의 차이점?  
+
