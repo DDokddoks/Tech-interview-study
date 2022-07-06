@@ -161,7 +161,7 @@
 ### ⚡️ Chapter 5. CPU Scheduling
  
 - CPU 스케줄링이란 무엇인가요?  
-  > Multiprogrammed OS의 기본이 되는 것, 어떤 프로세스가 대기해야 할 경우, OS가 CPU를 그 프로세스로부터 회수하고 다른 프로세스에 할당하여 **CPU를 쉬지 않도록 바쁘게 유지하여 CPU의 이용률을 최대화하는 것**
+  > 프로세스가 작업을 수행할 때, 언제 어떤 프로세스에 CPU를 할당할지를 결정하는 방법이다. 어떤 프로세스가 대기해야 할 경우, OS가 CPU를 그 프로세스로부터 회수하고 다른 프로세스에 할당하여 **CPU를 쉬지 않도록 바쁘게 유지하여 CPU의 이용률을 최대화하는 것**이 목표이다.
 
 - CPU Scheduling은 언제 발생하는가?  
   > - case1. Running state -> Waiting State  
