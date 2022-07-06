@@ -112,3 +112,111 @@
     indirect 통신은 수신인과 발신인을 명시하지 않아도 되고, 메시지들을 mailbox나 port를 통해서 주고 받는다. 각 프로세스가 공유 mailbox를 가지고 있는 경우 링크가 생성되고, 링크는 2개 이상의 프로세스와 연결될 수 있다. 
     
 - 동기와 비동기, 블로킹과 넌블로킹의 차이는 무엇인가요?
+
+
+### ⚡️ Chapter 4. Thread
+
+- 프로세스와 쓰레드의 차이를 설명해보세요
+
+  > 프로세스는 운영체제로부터 할당받는 작업의 단위(실행 중인 프로그램)이고, 스레드는 할당 받은 자원을 이용하는 실행 단위이다. 프로세스는 독립적인 메모리 영역을 할당받지만 스레드는 스택을 제외한 나머지 공간을 공유한다.
+
+- 크롬 탭이 프로세스인지 쓰레드인지 설명해보세요
+
+  > 크롬은 탭마다 PID를 가지고 있으니 Process이며 각 Tab마다 랜더링 정보나 기타 데이터를 따로 관리한다. 이로 인해 메모리를 많이 잡아먹기도 하지만 하나의 Tab에 오류가 생겼다고 모든 Tab에 영향을 끼치진 않는다.
+
+- 멀티 프로세스와 멀티 스레드 각각의 장단점
+
+  > - 멀티 프로세스
+  >   - 장점  
+  >     • 각 프로세스가 독립된 영역(code, data, stack, heap)을 갖고 있기 때문에 여러 자식 프로세스 중 하나에 문제가 발생해도 해당 프로세스에만 영향을 미친다.  
+• 메모리 침범 문제를 OS 차원에서 해결하므로 안전하다.  
+  >   - 단점  
+  >      • 작업량이 많아지면 context switching 시 오버헤드가 발생한다.  
+          • 프로세스 간의 복잡한 통신(IPC)가 필요하다.  
+  > - 멀티 스레드
+  >   - 장점  
+  >     • 메모리 공간, 시스템 자원의 효율성이 증가한다.  
+• context switching 시 교환해야 할 대상이 적으므로 비용이 적다.  
+• data, heap 영역을 이용해 데이터를 주고 받으므로 스레드 간 통신이 간단하다.  
+  >   - 단점  
+  >     • 서로 다른 스레드가 Stack을 제외한 메모리 공간을 공유하기 때문에 동기화 문제가 발생할 수 있다.  
+• 스레드 간의 자원 공유는 전역 변수(data segment)를 이용하므로 다른 스레드가 동시에 사용할 때 충돌이 발생할 수 있다.  
+• 하나의 스레드에 문제가 생기면 전체 스레드가 영향을 받는다.  
+• 주의 깊은 설계가 필요하며 디버깅이 까다롭다.  
+• 멀티 스레드의 단점은 critical section 기법을 통해 대비할 수 있다.  
+
+- 멀티 프로세스 대신 멀티 스레드를 사용하는 이유는 무엇입니까?
+
+  > - Responsiveness(응답성)
+  >    - 프로세스의 일부가 block 되어도, 지속적인 실행이 가능함
+  >  - Resource Sharing(자원 공유)
+  >    - 프로세스의 자원을 공유하여 shared memory와 message passing보다 용이
+  >  - Economy(경제)
+  >    - 프로세스 생성보다 효율적
+  >    - 스레드 스위칭이 context switching보다 오버헤드가 적음
+  >  - Scalability(확장성)
+  >     - 각 프로세스들을 thread 단위로 분할하여 실행함으로써 multiprocessor 구조에서 더 큰 이점을 얻을 수 있음
+
+- 사용자 수준의 스레드와 커널 수준의 스레드의 차이는 무엇인가요?
+
+  > - **User threads**
+  >   - user mode에서 사용되는 thread  
+  >   - kernel 위에서 kernel support 없이 관리  
+  >   - OS가 가진 CPU들을 자유롭게 사용할 수는 없음  
+  > - **kernel threads**
+  >   - kernel mode에서 사용되는 thread  
+  >   - OS가 직접 관리 및 지원  
+  >   - OS가 가진 CPU들을 자유롭게 사용할 수 있음  
+
+- 스레드 풀링이란 무엇이고 장점은?
+
+  > - Thread Pools
+  >   - 프로세스를 시작할 때 아예 일정한 수의 thread들을 미리 풀로 만들어 두는 것  
+  >   - 매번 사용되고 바로 폐기되는 스레드를 새로 생성하는 것은 시간 낭비  
+  >   - 개수의 한계 없이 모든 요청에서 새 스레드를 생성하면 CPU 시간, 메모리 공간 등 자원이 고갈될 수 있기 때문  
+  > - 장점
+  >   - 새 스레드를 만들어 주기보다 기존 스레드로 서비스해 주는 것이 종종 더 빠르다.  
+  >   - 스레드 풀은 임의 시각에 존재할 스레드 개수에 제한을 둔다. 이러한 제한은 많은 수의 스레드를 병렬 처리할 수 없는 시스템에 도움이 된다.  
+  >   - 태스크를 생성하는 방법을 태스크로부터 분리하면 태스크를 실행을 다르게 할 수 있다. 예를 들어 태스크를 일정 시간 후에 실행되도록 스케줄 하거나 혹은 주기적으로 실행시킬 수 있다.  
+  
+### ⚡️ Chapter 5. CPU Scheduling
+ 
+- CPU 스케줄링이란 무엇인가요?  
+  > CPU 스케줄러사 Ready queue에 있는 프로세스 중에서 어떤 프로세스에게 CPU를 할당할지 결정하는 것 (운영체제 내의 기능을 하는 코드)
+
+- CPU Scheduling은 언제 발생하는가? 
+  >- Running → Blocked (Non-preemptive) : 실행 중이다가 I/O 작업을 하러 간 경우
+  >- Running → Ready (Preemptive) : 인터럽트로 인해 빼앗기는 경우 (ex) time interrupt
+  >- Blocked → Ready (Preemptive) : I/O 작업이 끝난 경우 (우선순위 기반 스케줄링에서는 ready로 가서 바로 cpu 권한 얻을 수 있음)
+  >- Terminate (Non-preemptive)
+
+- CPU 스케줄링 종류와 방법에는 대표적으로 어떤 것들이 있나요?  
+  > - FCFS (First-Come First-Served)  
+      - 먼저 온 프로세스에게 먼저 CPU를 할당해주는 비선점형 알고리즘
+  > - SJF (Shortest-Job-First)  
+      - CPU burst가 가장 짧은 프로세스에게 먼저 CPU를 할당해주는 알고리즘  
+      - waiting time 최소화
+  > - Priority Scheduling  
+      - 우선순위(priority number)가 가장 높은 프로세스가 먼저 CPU를 할당받는 알고리즘  
+      - Starvation이 일어날 수 있다. 
+  > - RR (Round Robin)  
+      - 각 프로세스에는 일정한 할당시간(time quantum)동안 CPU를 사용하고 할당 시간이 지나면 선점당하고 다시 ready queue로 들어가는 알고리즘이다.  
+      - 응답 시간이 빠르다는 특징이 있다. 
+  > - Multilevel Queue  
+      - Ready queue를 여러 개로 분할하여 큐에 따라 스케줄링 방법을 다르게 하는 알고리즘  
+      - 각 큐에 따라 CPU time을 적절한 비율로 할당한다. 
+  > - Multilevel Feedback Queue  
+      - Multilevel Queue에서 프로세스가 다른 큐로 이동 가능한 방법이다. 
+      - CPU 사용 시간이 짧은 프로세스가 많이 할당받을 수 있다. 
+
+- Starvation이란?  
+  > Priority Scheduling 또는 SJF에서 발생하는 문제점으로 낮은 우선순위를 가진 프로세스가 계속 CPU 할당을 받지 못하는 현상이다. 
+
+- Aging이란? 
+  > Starvation 문제의 해결방안으로 우선순위가 낮은 프로세스가 계속 기다리면 우선 순위를 높여주는 방법이다.  
+
+- Preemptive Scheduling과 Non-preemptive Scheduling의 차이점?  
+  > - Preemptive Scheduling  
+      - 현재 실행 중인 프로세스를 종료시키고 다른 프로세스가 CPUfmf 차지하는 방법이다. 대표적으로 Round Robin 알고리즘이 있다. 
+  > - Non-preemptive Scheduling  
+      - 프로세스가 한번 CPU를 차지하면 CPU burst가 완료될 때까지 CPU를 넘겨주지 않는 방법이다. 대표적으로 SJF 알고리즘이 있다.  
