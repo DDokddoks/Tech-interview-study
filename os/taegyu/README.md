@@ -164,15 +164,15 @@
   > Multiprogrammed OS의 기본이 되는 것, 어떤 프로세스가 대기해야 할 경우, OS가 CPU를 그 프로세스로부터 회수하고 다른 프로세스에 할당하여 **CPU를 쉬지 않도록 바쁘게 유지하여 CPU의 이용률을 최대화하는 것**
 
 - CPU Scheduling은 언제 발생하는가?  
-  > case1. Running state -> Waiting State  
+  > - case1. Running state -> Waiting State  
   >   ex) I/O 요청, 자식 프로세스의 종료를 기다리기 위해 wait() 호출
-  > case2. Running state -> Ready state  
+  > - case2. Running state -> Ready state  
   >   ex) interrupt 발생 시  
-  > case3. Waiting state -> Ready state  
+  > - case3. Waiting state -> Ready state  
   >   ex) I/O 종료 시  
-  > case4. Terminate  
-  > - case1 & 4의 경우, 프로세스가 스스로 CPU를 release 하는 상황 -> 무조건 Non-preemptive  
-  > - case2 & 3의 경우, ready queue에 새로운 프로세스가 추가되는 상황 -> Preemptive / Non-preemptive 선택
+  > - case4. Terminate  
+  > case1 & 4의 경우, 프로세스가 스스로 CPU를 release 하는 상황 -> 무조건 Non-preemptive  
+  > case2 & 3의 경우, ready queue에 새로운 프로세스가 추가되는 상황 -> Preemptive / Non-preemptive 선택
 
 - CPU 스케줄링 종류와 방법에는 대표적으로 어떤 것들이 있나요?  
   > - **FCFS Scheduling** : First Come, First Served. 가장 단순한 스케줄링 알고리즘으로, CPU를 먼저 요청한 프로세스가 먼저 CPU를 할당받으며 Non-preemptive
