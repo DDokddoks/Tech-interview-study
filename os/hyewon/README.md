@@ -147,3 +147,30 @@
 - Preemptive Scheduling과 Non-preemptive Scheduling의 차이점?  
 
   > Non-preemptive Scheduling은 프로세스가 block(wait) 상태로 바뀌거나 실행이 끝났을 때만 다른 프로세스로 교체 가능하지만, Preemptive Scheduling은 프로세스 실행 중에 이를 중단시키고 다른 프로세스로 교체할 수 있다. 이때, Non-preemptive Scheduling은 Preemptive Scheduling과 달리 지연되는 경우가 있어 응답시간이 평균적으로 길다. 
+  
+  ---
+  
+### ⚡️ Chapter 6. Process Synchronization
+
+- 경쟁 상태(racing condition)란 무엇인가요? 
+
+  > Race condition은 Multi-processor system에서 두 개 이상의 프로세스나 스레드가 동시에 공유 데이터에 접근하는 상황을 의미한다. 공유 데이터의 동시 접근은 데이터의 불일치 문제를 발생시킬 수 있다.  
+
+- 임계영역 문제에 대한 해결책에는 어떤 것들이 있나요?  
+
+  > 먼저, 임계영역 문제를 해결하기 위한 조건에는 Mutual exclusion(상호 배제), Progress(진행), Bounded waiting(한정된 대기) 3가지가 있다. 이를 만족하는 구체적인 해결법으로는 Mutex와 Semaphore가 있다.  
+  > - **Mutex**는 Lock과 Unlock을 이용하는 방식으로, 특정 프로세스가 공유자원을 사용하고 있을 경우, 다른 프로세스가 해당 공유 자원을 사용하지 못하게 제어하는 기법을 말한다. 동시에 공유 자원에 접근하는 것을 막기 위해 critical section에 진입하는 프로세스는 lock을 획득하고 critical section을 빠져나올 때, lock을 방출함으로써 동시에 접근이 되지 않도록 한다.  
+  > - **Semaphore**는 counter를 두어서 동시에 리소스에 접근할 수 있는 허용 가능한 스레드 수를 제어하는 카운팅 세마포어(Counting semaphore) 방식과 0과 1 값만 사용하는 이진 세마포어(Binary semaphore, Mutex) 방식이 있다. 이때, 세마포어의 대기는 while문으로 돌기 때문에 Critical Section 진입을 기다리면서 계속 CPU와 메모리를 사용하는 Busy waiting(=spin lock)의 문제가 있다. 이를 대체하기 위한 방법으로 **Block & Wakeup**(=sleep lock)이 있으며, 이는 Critical Section으로의 진입에 실패한 프로세스를 기다리게 하지 않고 Block 시킨 뒤 Critical Section에 자리가 나면 다시 깨워줌으로써 Busy waiting에서의 CPU 낭비 문제를 해결해준다.  
+
+- 프로세스 혹은 스레드의 동기화란 무엇인가요?  
+
+  > 공유되고 있는 변수를 사용해 한 프로세스(스레드)가 작업을 하고 있을 때, 다른 프로세스(스레드)가 그 변수 이용이 끝나기 전까지 사용하는 것을 막아주는 것을 의미한다. 즉, 상호 배제의 한 방법이다.  
+
+- thread-safe의 의미?  
+
+  > 멀티 스레드 프로그래밍에서 일반적으로 어떤 함수나 변수, 혹은 객체가 여러 스레드로부터 동시에 접근이 이루어져도 프로그램의 실행에 무리가 없음을 의미한다. Thread-safe하게 구현하기 위해서는 공유 자원에 접근하는 임계영역(critical section)을 동기화 기법으로 제어해줘야 한다(상호배제).  
+
+- 락을 걸지 않고 경쟁상태를 해결할 수 있는 방법은 무엇인가요?
+
+  > 모니터(Monitor)는 세마포어와 달리 Lock을 걸 필요가 없다. 세마포어는 프로그래머가 직접 wait와 signal을 사용하여 race condition을 해결해야 하지만, 모니터는 자체적인 기능으로 해결할 수 있게 된다.   
+
