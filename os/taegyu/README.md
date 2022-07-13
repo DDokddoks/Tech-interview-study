@@ -207,11 +207,11 @@
   > - 하드웨어 지원 동기화
   >   - Test & Modify를 atomic하게(사이에 끼어들 수 없는 하나의 instruction 단위 안에) 수행할 수 있도록 하는 명령어 **test_and_set(a)** 를 지원함으로써 간단하게 동기화할 수 있다.
   > - Semaphore
-  >   - Integer 타입의 Synchronization variable에 대해 atomic한 P(S)연산 (cs 진입이 가능해질 때까지 대기하다가 S-- 후 진입하는 연산)과 V(S)연산 (cs 완료 후 S++ 하는 연산)을 정의하여 동기화를 가능하게 하는 것
-  >   - 초기값을 사용 가능한 자원의 개수로 초기화하여 resource count의 용도로도 사용하는 Counting Semaphore와 0 or 1의 값만 가질 수 있는 Binary Semaphore(=Mutex)가 있다.
+  >   - Integer 타입의 Synchronization variable S에 대해 atomic한 **P(S)** 연산 (cs 진입이 가능해질 때까지 대기하다가 S-- 후 진입하는 연산)과 **V(S)** 연산 (cs 완료 후 S++ 하는 연산)을 정의하여 동기화를 가능하게 하는 것
+  >   - 0 이상의 정수값을 가질 수 있어, 초기값을 사용 가능한 자원의 개수로 초기화여 resource count의 용도로도 사용하는 Counting Semaphore / 0 or 1의 값만 가질 수 있는 Binary Semaphore(=Mutex)가 있다.
   >   - Busy-wait 방식과 Block & Wakeup 두 가지 방식으로 구현할 수 있다.
   > - Monitor
-  >   - Monitor란 동시 수행 중인 프로세스 사이에서 abstract data type의 안전한 공유를 보장하기 위한 high-level synchronization construct이다. Monitor는 공유하는 변수와 그 변수를 조작할 수 있는 사용자 정의 ppertaion(프로시저 or 함수)을 포함하며, Monitor 내의 operation은 원천적으로 동시에 여러 개가 실행될 수 없도록 설계되어 있어 프로그래머가 따로 lock을 해줄 필요 없이 racing condition을 해결할 수 있다.
+  >   - Monitor란 동시 수행 중인 프로세스 사이에서 abstract data type의 안전한 공유를 보장하기 위한 high-level synchronization construct이다. Monitor는 공유하는 변수와 그 변수를 조작할 수 있는 사용자 정의 opertaion(프로시저 or 함수)을 포함하며, Monitor 내의 operation은 원천적으로 동시에 여러 개가 실행될 수 없도록 설계되어 있어 **프로그래머가 따로 lock을 해줄 필요 없이** racing condition을 해결할 수 있다.
 
 - 프로세스 혹은 스레드의 동기화란 무엇인가요? 
   > racing condition에서 발생할 수 있는 data inconsistency 방지를 위해 협력 프로세스 간의 실행 순서를 정해주는 것을 말한다. 
