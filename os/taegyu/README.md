@@ -191,3 +191,33 @@
 - Preemptive Scheduling과 Non-preemptive Scheduling의 차이점?  
   > - **Preemptive** : 스케줄러가 CPU를 선점하고 있는 프로세스를 내보내고 다른 프로세스로 할당 가능, 복잡하지만 짧은 평균대기 시간을 보장한다는 
   > - **Non-preemptive** : 한번 프로세스가 CPU를 선점하면, 스스로 나올 때까지 종료/대기상태로 전환 불가, 단순하지만 평균대기 시간이 길어지는 단점
+
+
+### ⚡️ Chapter 6. Process Synchronization
+
+- 경쟁 상태(racing condition)란 무엇인가요?  
+  > 여러 개의 프로세스가 동시에 동일한 자료에 접근하여 조작하고, 그 최종 연산 결과가 접근하는 순서에 따라 달라지게 되는 상황을 말한다. data inconsistency 문제가 발생할 수 있다.  
+  > consistency 유지를 위해 협력 프로세스 간의 실행 순서를 정해주는 '동기화'가 필요하다.
+
+- 임계영역 문제에 대한 해결책에는 어떤 것들이 있나요?  
+  > - Peterson's Algorithm
+  >   - cs 진입 의사 표시를 위한 변수 **flag**, 진입 가능 여부를 위한 변수 **turn**을 사용하여, flag와 turn을 검사하여 모두 true이면(다른 프로세스가 cs에 진입 중이면) 대기하고, 그렇지 않으면 진입하는 방식으로 동기화를 하는 알고리즘이다.
+  >   - Busy Waiting(=spin lock)으로 인한 CPU cycle 낭비가 발생한다.
+  >   - 컴파일러에 의해 entry section의 명령어 순서가 뒤바뀌면 mutex가 깨지는 문제가 발생한다. 
+  > - 하드웨어 지원 동기화
+  >   - Test & Modify를 atomic하게(사이에 끼어들 수 없는 하나의 instruction 단위 안에) 수행할 수 있도록 하는 명령어 **test_and_set(a)** 를 지원함으로써 간단하게 동기화할 수 있다.
+  > - Semaphore
+  >   - Integer 타입의 Synchronization variable S에 대해 atomic한 **P(S)** 연산 (cs 진입이 가능해질 때까지 대기하다가 S-- 후 진입하는 연산)과 **V(S)** 연산 (cs 완료 후 S++ 하는 연산)을 정의하여 동기화를 가능하게 하는 것
+  >   - 0 이상의 정수값을 가질 수 있어, 초기값을 사용 가능한 자원의 개수로 초기화여 resource count의 용도로도 사용하는 Counting Semaphore / 0 or 1의 값만 가질 수 있는 Binary Semaphore(=Mutex)가 있다.
+  >   - Busy-wait 방식과 Block & Wakeup 두 가지 방식으로 구현할 수 있다.
+  > - Monitor
+  >   - Monitor란 동시 수행 중인 프로세스 사이에서 abstract data type의 안전한 공유를 보장하기 위한 high-level synchronization construct이다. Monitor는 공유하는 변수와 그 변수를 조작할 수 있는 사용자 정의 opertaion(프로시저 or 함수)을 포함하며, Monitor 내의 operation은 원천적으로 동시에 여러 개가 실행될 수 없도록 설계되어 있어 **프로그래머가 따로 lock을 해줄 필요 없이** racing condition을 해결할 수 있다.
+
+- 프로세스 혹은 스레드의 동기화란 무엇인가요? 
+  > racing condition에서 발생할 수 있는 data inconsistency 방지를 위해 협력 프로세스 간의 실행 순서를 정해주는 것을 말한다. 
+
+- thread-safe의 의미?  
+  > 
+
+- 락을 걸지 않고 경쟁상태를 해결할 수 있는 방법은 무엇인가요?
+  > Monitor를 사용하는 것이다. Monitor란 동시 수행 중인 프로세스 사이에서 abstract data type의 안전한 공유를 보장하기 위한 high-level synchronization construct이다. Monitor는 공유하는 변수와 그 변수를 조작할 수 있는 사용자 정의 ppertaion(프로시저 or 함수)을 포함하며, Monitor 내의 operation은 원천적으로 동시에 여러 개가 실행될 수 없도록 설계되어 있어 프로그래머가 따로 lock을 해줄 필요 없이 racing condition을 해결할 수 있다.
