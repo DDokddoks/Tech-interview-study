@@ -247,3 +247,15 @@
   > - Preemptive Scheduling : CPU 스케줄러가 CPU를 선점하고 있는 프로세스를 중단시키고 다른 프로세스에게 CPU를 할당하는 방법이다.
   > - Non-preemptive Scheduling : 프로세스가 한번 CPU를 선점하면 프로세스가 block(wait) 상태로 바뀌거나 실행이 끝났을 때만 다른 프로세스로 CPU를 할당 가능하고, Preemptive Scheduling과 달리 지연되는 경우가 있어 응답시간이 평균적으로 길다.
 
+### ⚡️ Chapter 6. Process Synchronization
+
+- 경쟁 상태(racing condition)란 무엇인가요?  
+
+- 임계영역 문제에 대한 해결책에는 어떤 것들이 있나요?  
+
+- 프로세스 혹은 스레드의 동기화란 무엇인가요?  
+
+- thread-safe의 의미?  
+
+- 락을 걸지 않고 경쟁상태를 해결할 수 있는 방법은 무엇인가요?
+
