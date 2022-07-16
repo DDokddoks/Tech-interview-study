@@ -221,3 +221,41 @@
 
 - 락을 걸지 않고 경쟁상태를 해결할 수 있는 방법은 무엇인가요?
   > Monitor를 사용하는 것이다. Monitor란 동시 수행 중인 프로세스 사이에서 abstract data type의 안전한 공유를 보장하기 위한 high-level synchronization construct이다. Monitor는 공유하는 변수와 그 변수를 조작할 수 있는 사용자 정의 ppertaion(프로시저 or 함수)을 포함하며, Monitor 내의 operation은 원천적으로 동시에 여러 개가 실행될 수 없도록 설계되어 있어 프로그래머가 따로 lock을 해줄 필요 없이 racing condition을 해결할 수 있다.
+
+- 교착상태란 무엇이며, 교착상태가 발생하기 위해서는 어떤 조건이 있어야 하나요?
+  > 교착상태(Deadlock)란, 일련의 프로세스들이 서로가 가진 자원을 내어놓지 않고 상대방의 자원을 기다리며 block된 상태를 말한다. 
+  > 교착상태가 발생하기 위해선 4가지 조건이 필요하다.
+  >   1. Mutual Exclusion : 한 번에 하나의 프로세스만이 자원을 사용할 수 있는 것
+  >   2. No preemption : 프로세스는 자원을 스스로 반납하며, 빼앗기지 않는 것
+  >   3. Hold and Wait : 자원을 가진 프로세스가 다른 자원을 기다릴 때 보유한 자원을 내놓지 않고 계속 소유하는 것
+  >   4. Circular Wait : 자원을 기다리는 프로세스들 간에 사이클이 형성되는 것 (P0 -> P1 -> ... -> Pn -> P0)
+  
+- 교착상태의 해결법은 무엇인가요?
+  > 교착상태의 해결법은 크게 교착상태가 발생하지 않도록 방지하는 방법과 교착상태가 생기도록 놔두는 방법으로 나눌 수 있다.
+  > - Deadlock을 미리 방지하는 방법
+  >   - **Deadlock Prevention**
+  >     - 자원할당 시 Deadlock 4가지 발생 조건 중 어느 하나가 만족되지 않도록 하는 것이다.
+  >     - Mutual Exclusion에 대해서는 따로 방지하는 방법이 없다.  
+  >     - No preemption에 대해서는 어떤 자원을 기다려야 하는 경우, 이미 보유한 자원을 빼앗기게 한다. 주로 State를 쉽게 save/restore 할 수 있는 CPU, Memory에 대해서 사용한다.
+  >     - Hold and Wait에 대해서는 프로세스 시작 시 모든 필요한 자원을 미리 할당하거나, 자원이 필요할 경우 현재 보유한 자원을 모두 놓고 다시 요청하도록 한다.
+  >     - Circular Wait에 대해서는 모든 자원 유형에 할당 순서를 정하고 정해진 순서대로만 자원을 할당하도록 한다.
+  >   - **Deadlock Avoidance**
+  >     - 자원 요청에 대한 부가 정보를 이용해서 deadlock으로부터 safe한 지를 동적으로 조사하여 safe할 때만 자원을 할당한다. 
+  >     - Single instance per resource type인 경우, Claim edge(어떤 프로세스가 미래에 요청할 수 있는 자원을 가리키는 점선 화살표)가 추가된 자원할당 그래프를 통해 Claim edge를 포함하여 cycle의 존재여부를 검사하고, 없을 때만 자원을 할당한다.
+  >     - Multiple instance per resource type인 경우, Banker's Algorithm을 사용한다.
+   
+  > - Deadlock이 생기도록 놔두는 방법
+  >   - **Deadlock Detection and recovery**
+  >     - Deadlock이 발생하도록 방치하지만, detection 루틴을 두어 Deadlock 발생 시 이를 recovery 한다.
+  >     - Single instance per resource type일 때는 자원할당 그래프(or Wait-for 그래프)를 통해 cycle의 존재여부를 확인하여 cycle이 있으면 deadlock이라고 판단
+  >     - Multiple instance per resource type일 때는 Banker's algorithm과 유사하지만, **"추가요청 가능 자원 <= 가용 자원"** 일 때가 아닌 **"현 시점 요청 자원 <= 가용 자원"** 일 때 자원을 할당하며, 이때 가용 자원의 갯수에는 현 시점에 요청이 없는 프로세스가 보유하고 있는 자원을 포함하여 산정한다.
+  >   - **Deadlock Ignorance**
+  >     - Deadlock은 매우 드물게 발생하기 때문에 이에 대한 조치 자체가 더 큰 overhead를 발생시킨다고 판단하여 아무런 조치를 취하지 않는 것이다. Deadlock이 발생했을 땐, 사람이 직접 알아챈 후 프로세스를 죽이는 방법으로 대처할 수 있다. 대부분의 범용 OS가 이 방법을 사용한다.
+
+- Banker's algorithm 은 무엇입니까?
+  > Deadlock 해결법 중 Deadlock avoidance에서 사용하는 알고리즘으로, resource type 당 여러 개의 instance가 있는 경우에 사용한다. 모든 프로세스가 자원의 최대 사용량을 미리 명시하고, 프로세스는 요청 자원을 모두 할당받은 후 유한 시간 내에 자원을 반납한다는 것을 가정으로 한다.
+  > 기본 개념은 자원 요청 시 safe 상태를 유지할 때만 할당하는 것이다. 어떤 프로세스가 특정 자원을 요청했을 때, 해당 자원에 대한 해당 프로세스의 추가요청 가능 자원(해당 자원에 대한 최대 사용량 - 현재 보유량)이 현재 가용 자원 수보다 작거나 같을 때만 자원을 할당하고, 그렇지 않으면 할당하지 않음으로써 safe 상태를 유지하는 알고리즘이다.
+
+- 교착상태와 starvation의 차이는?
+  > 교착상태는 프로세스의 상태 중 block 상태일 때 발생하며, 절대 발생하지 않을 이벤트를 무한히 대기한다. 필요한 자원이 공유자원이다. 
+  > Starvation은 프로세스의 ready 상태일 때 발생하며, 높은 우선순위를 가진 프로세스에 의해 원하는 자원을 계속 선점당하여 무한히 대기하는 것이다. 필요한 자원은 CPU 할당이다.
