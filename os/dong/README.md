@@ -240,3 +240,32 @@
 
 - 락을 걸지 않고 경쟁상태를 해결할 수 있는 방법은 무엇인가요?
   > Moniter를 이용하는 방법이다. Moniter는 공유 데이터에 접근하기 위해서는 모니터 내부의 procedure을 통해서만 접근할 수 있도록 하기 때문에 동일한 시간에 오직 하나의 프로세스나 스레드만 모니터에 들어갈 수 있게 한다. 
+
+- 교착상태란 무엇이며, 교착상태가 발생하기 위해서는 어떤 조건이 있어야 하나요?
+
+  > deadlock이란 일련의 프로세스들이 서로가 가진 자원을 기다리며 block된 상태이다.  
+  > deadlock의 발생 조건 4가지가 있다.  
+  > 1. Mutual exclusion (상호 배제) : 동시에 하나의 프로세스만이 자원을 사용할 수 있다.  
+  > 2. No preemption (비선점) : 프로세스는 자원을 스스로 release할 수 있고, 강제로 빼앗기지 않는다. 
+  > 3. Hold and wait (보유 대기) : 자원을 가진 프로세스가 다른 자원을 기다릴 때 자신의 자원을 계속 보유하고 있다. 
+  > 4. Circular wait (순환 대기) : 자원을 기다리는 프로세스들 사이에 사이클이 형성되어야 한다.
+
+- 교착상태의 해결법은 무엇인가요?
+
+  > 교착상태의 해결법은 크게 4가지로 나눌 수 있다.  
+  > 1. Deadlock Prevention : deadlock을 예방하는 방법으로 자원 할당 시 deadlock의 조건 4가지 중 어느 하나를 만족하지 못하도록 한다.   
+  > 2. Deadlock Avoidance : deadlock을 피하는 방법으로 자원 요청에 대한 부가적인 정보를 이용해서 deadlock의 가능성이 없는 경우에만 자원을 할당한다.  
+  > 3. Deadlock Detection and Recovery : Deadlock이 발생을 감지하고 발견시 recover한다.    
+  > 4. Deadlock Ignorance : 운영체제가 deadlock에 대해 책임을 지지 않는 방법으로 현재 대부분의 OS들이 채택하고 있는 방법이다.
+
+- Banker's algorithm 은 무엇입니까?
+
+  > Deadlock을 피하는 방법 중 자원의 인스턴스 수가 여러 개일 때 사용하는 알고리즘이다.추가 요청 가능한 인스턴스의 수(Need)가 이용 가능한 인스턴스의 수(Available)에 충분히 포함되는지를 확인하고 충족이 안된다면 충족이 가능한 프로세스에게 먼저 할당을 하면서 safe state를 유지하도록 한다. 
+
+- 교착상태와 starvation의 차이는?
+
+  > 프로세스 상태 차이  
+  > - deadlock은 프로세스가 ready 상태에서 무한 대기를 하는 것이고, starvation은 프로세스가 asleep 상태에서 무한 대기를 하는 것이다.   
+  > 필요한 자원 차이  
+  > - deadlock은 필요한 공유 자원을 얻고자 하고, Starvation은 CPU를 할당받고자 한다.  
+   
