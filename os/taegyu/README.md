@@ -217,7 +217,7 @@
   > racing condition에서 발생할 수 있는 data inconsistency 방지를 위해 협력 프로세스 간의 실행 순서를 정해주는 것을 말한다. 
 
 - thread-safe의 의미?  
-  > 
+  > 멀티 스레드 프로그래밍에서 일반적으로 어떤 함수나 변수, 혹은 객체가 여러 스레드로부터 동시에 접근이 이루어져도 프로그램의 실행에 무리가 없음을 의미한다. Thread-safe하게 구현하기 위해서는 공유 자원에 접근하는 임계영역(critical section)을 동기화 기법으로 제어해줘야 한다(상호배제) (Main의 내용 가져옴)
 
 - 락을 걸지 않고 경쟁상태를 해결할 수 있는 방법은 무엇인가요?
   > Monitor를 사용하는 것이다. Monitor란 동시 수행 중인 프로세스 사이에서 abstract data type의 안전한 공유를 보장하기 위한 high-level synchronization construct이다. Monitor는 공유하는 변수와 그 변수를 조작할 수 있는 사용자 정의 ppertaion(프로시저 or 함수)을 포함하며, Monitor 내의 operation은 원천적으로 동시에 여러 개가 실행될 수 없도록 설계되어 있어 프로그래머가 따로 lock을 해줄 필요 없이 racing condition을 해결할 수 있다.
