@@ -19,3 +19,8 @@
 5. 다음 스터디에 공부해야 하는 파트의 질문을 선정한다. 
 
 ### 👨‍💻Contributers👨‍💻
+<a href="https://github.com/DDokddoks/Tech-interview-study/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=DDokddoks/Tech-interview-study" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
