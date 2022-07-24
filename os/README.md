@@ -330,6 +330,19 @@
 
 - 메모리 관리에서 페이징와 세그멘테이션에 대해서 설명해 보시오.
 
+  > **페이징(Paging)** 은 logical memory를 동일한 크기의 page들로 분할하고 물리적 메모리에 올리는 Noncontiguous한 메모리 할당 방법이다. 이때 physical memory는 page와 동일한 크기의 frame들로 나누어지며, 각 page는 그에 해당하는 frame의 위치에 저장된다. 외부 단편화는 발생하지 않는다는 장점이 있지만 내부 단편화는 해결하지 못하고, page table을 저장하기 위한 메모리 공간이 더 필요하다는 단점이 있다.  
+  > **세그멘테이션(Segmentation)** 은 프로세스의 논리적 메모리를 의미 단위로 분할하여 물리적 메모리에 올리는 Noncontiguous한 메모리 할당 방법이다. Segment는 작게는 프로그램을 구성하는 함수 하나하나일 수 있고, 크게는 프로그램 전체가 될 수도 있다. 세그먼트마다 sharing과 protection을 따로 수행할 수 있어서 효율적이지만, 외부 단편화 문제가 생길 수 있는 단점이 있다.  
+
 - First Fit, Best Fit, Worst Fit에 대해서 설명해 보시오.
 
+  > Dynamic Storage-Allocation 문제로 가변 분할 방식에서 size가 N인 프로세스가 들어가기에 가장 적절한 hole을 찾는 방법을 3가지로 나눈 것이다.  
+  > First-Fit : 처음 발견되는 N보다 큰 hole에 바로 할당한다.    
+  > Best-Fit : N보다 큰 hole을 다 탐색하고 그 중에 가장 작은 hole에 할당한다. hole들의 리스트가 정렬되어있지 않은 경우 모든 hole을 탐색해야하며, 할당 시 아주 작은 hole들이 여러 개 생성된다는 문제가 있다.   
+  > Worst-Fit : N보다 큰 hole을 다 탐색하고 그 중에 가장 큰 hole에 할당한다. Best Fit과 마찬가지로 모든 hole을 탐색해야 하며, 상대적으로 아주 큰 hole들이 생성된다.   
+  > First-fit과 Best-fit이 Worst-fit보다 속도와 공간 이용률 측면에서 효과적이다.
+
+
 - 외부 단편화란? 내부 단편화란?
+
+  > External Fragmentation(외부 단편화) : 프로세스의 크기가 분할(partition)의 크기보다 큰 경우로 메모리에서 남은 총 공간을 계산했을 때 프로세스가 들어갈 공간이 있음에도 공간들의 크기가 작아서 아무 프로그램도 배정되지 않는 공간을 의미한다. 고정분할 방식, 페이징에서 발생할 수 있다.   
+  > Internal Fragmentation(내부 단편화) : 프로세스의 크기가 분할(partition)의 크기보다 작은 경우로 분할 내부에서 사용이 되지 않는 공간을 의미한다. 고정분할 방식, 가변분할 방식, 세그멘테이션에서 발생할 수 있다.   
