@@ -290,3 +290,48 @@
 
   > 외부 단편화란 프로세스의 크기가 분할(partition)의 크기보다 큰 경우로 메모리에서 남은 총 공간을 계산했을 때 프로세스가 들어갈 공간이 있음에도 공간들의 크기가 작아서 아무 프로그램도 배정되지 않는 공간을 의미한다.  
   > 내부 단편화란 프로세스의 크기가 분할(partition)의 크기보다 작은 경우로 분할 내부에서 사용이 되지 않는 공간을 의미한다.  
+
+  ### ⚡️ Chapter 9. Virtual Memory
+- 가상 메모리(Virtual Memory)란?  
+
+  > 가상 메모리(Virtual Memory)란, 물리 메모리 크기의 한계를 극복하기 위해 나온 메모리 관리 방법 중 하나로 각 프로그램에 실제 메모리 주소가 아닌 가상의 메모리 주소를 주는 방식을 의마한다. 가상 메모리는 프로세스를 실행할 때, 실행에 필요한 부분만 메모리에 올림으로써 물리 메모리의 용량보다 큰 프로세스를 수행할 수 있게 한다.  
+
+- 가상 메모리를 사용할 시 장단점은?  
+
+  > 장점  
+  > - 프로그램의 크기가 물리 메모리보다 크더라도 실행이 가능하기 때문에 물리 메모리 크기의 제약으로부터 자유로워진다.  
+  > - CPU 이용률이 증가한다.  
+  > - 동시에 더 많은 프로그램을 수행할 수 있다.  
+  >
+  > 단점  
+  > - 물리 메모리로 프로그램을 실행하는 것보다 속도가 느리다.    
+
+- Demand Paging이란?  
+
+  > Demand Paging이란, 프로세스를 구성하는 페이지가 실제로 필요로 할 떄 메모리에 올라는 것이다. 이를 통해 I/O 양과 물리적인 메모리 사용량이 감소하고, 메모리는 더 많은 프로그램을 수용 가능하게 되며 응답 시간 더 빨라진다. Damand Paging은 valid/invalid bit를 통해 page table에 해당 페이지가 있는지를 확인하고, valid인 경우 해당 메모리에 접근하여 값을 읽어오고, invalid인 경우 page fault를 발생시킨다. 
+
+- page fault란?  
+
+  > Demand paging에서 주소 변환 시 invalid bit라면 디스크에서 메모리로 해당 페이지를 가져오는 것이다. 
+  > page fault의 처리 과정은 invalid한 page라면, 주소변환 하드웨어(MMU)가 trap을 발생시키고, CPU는 운영체제로 넘어가 page fault handler가 실행이 된다. page fault handler는 해당 페이지를 디스크에서 메모리로 올려준다. 
+
+- 페이지 교체란?  
+  
+  > Paging replacement란, page fault 처리 과정에서 메모리에 free frame이 없는 경우에 다른 frame을 빼앗아야 하는 경우에, OS가 어떤 page을 쫓아내고 새로운 page를 올려놓을지 결정하는 것이다. 
+
+- 페이지 교체 알고리즘의 종류와 각각의 특징에 대해 설명해 보시오.
+
+  > OPT(Optimal Algorithm)  
+  > - Optimal Algorithm은 가장 먼 미래에 참조된 page를 쫓아내는 알고리즘으로 가장 page fault가 적은 알고리즘이다. 항상 최적의 결과를 갖지만, 실제 시스템에서는 미래를 알 수 없기 때문에 살제 사용하기는 어려워 다른 알고리즘의 성능에 대한 upper bound를 제공한다.  
+
+  > FIFO(First In First Out) Algorithm  
+  > - FIFO Algorithm은 가장 오래 전에 참조된 page를 쫓아내는 알고리즘이다. 보통 메모리 크기를 늘려주면 보통 성능이 좋아지지만 이 알고리즘은 성능이 더 나빠질 수 있는 FIFO Anomaly 현상이 발생할 수 있다.  
+
+  > LRU (Least Recently Used) Algorithm  
+  > - LRU Algorithm은 가장 오래 전에 참조된 것을 지우는 알고리즘이다. 실제 메모리 관리 알고리즘에서 많이 사용하는 알고리즘이다. 연결 리스트로 LRU를 구현하면 page를 참조하고 지우는 데 시간복잡도는 O(1)이다.   
+
+  > LFU(Least Frequently Used) Algorithm  
+  > LFU Algorithm은 참조 횟수(reference count)가 가장 적은 page를 지우는 알고리즘이다. LRU 처럼 직전 참조 시점만 보는 것이 아니라 장기적인 시간 규모을 보기 때문에 page의 인기도를 좀 더 정확하게 반영할 수 있다. LFU는 Heap으로 구현하면 page를 참조하고 지우는데 시간복잡도는 O(log n)이다.  
+
+  > Clock Algorithm  
+  > - Clock Algorithm은 LRU의 근사(approximation) 알고리즘으로, reference bit를 사용해서 쫓아낼 페이지를 선정한다. 하드웨어가 페이지들을 참조할 때 reference bit를 1로 set하고, 운영체제가 쫓아낼 page를 결정할 때, 즉 page fault가 발생했을 때, reference bit를 보면서 1이라면 0으로 set하고, 0이면 해당 페이지를 쫓아낸다.   
