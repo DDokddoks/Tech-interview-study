@@ -351,12 +351,41 @@
 ### ⚡️ Chapter 9. Virtual Memory
 - 가상 메모리(Virtual Memory)란?  
 
+  > 가상 메모리(Virtual Memory)란, 물리 메모리 크기의 한계를 극복하기 위해 나온 메모리 관리 방법 중 하나로 각 프로그램에 실제 메모리 주소가 아닌 가상의 메모리 주소를 주는 방식을 의미한다. 가상 메모리는 프로세스를 실행할 때, 실행에 필요한 부분만 메모리에 올림으로써 물리 메모리의 용량보다 큰 프로세스를 수행할 수 있게 한다.
+
 - 가상 메모리를 사용할 시 장단점은?  
+
+  > 장점  
+  > - 물리 메모리 크기의 제약을 받지않는다.  
+  > - CPU 이용률과 처리율이 높아진다.  
+  > - 동시에 더 많은 프로그램을 수행할 수 있어 병행성이 높아진다.  
+  
+  > 단점  
+  > - 반복적으로 page fault가 발생하게 되면 프로세스 입출력에 대부분의 시간이 낭비되는 thrashing이 발생할 수 있다.  
 
 - Demand Paging이란?  
 
-- page fault란?  
+  > Demand Paging이란 실제로 필요할 때 해당하는 page를 메모리에 올리는 것이다.대부분의 프로그램은 아주 일부분만 빈번하게 사용되고 나머지는 그렇지 않으므로 프로그램의 전체가 메모리에 항상 있을 필요없이 필요할 때 필요한 부분만 메모리에 올리면서 실행하는 것이 효율적이다. Demand Paging은 valid/invalid bit를 통해 page table에 해당 페이지가 있는지를 확인하고, valid인 경우 해당 메모리에 접근하여 값을 읽어오고, invalid인 경우 page fault를 발생시킨다.
+  
+
+- Page fault란?  
+
+  > Demand Paging 방식을 사용할 때 CPU가 프로그램을 실행하면서 필요한 페이지가 물리적 메모리에 없는 경우로, 디스크에서 메모리로 해당 페이지를 가져오는 것이다. 
 
 - 페이지 교체란?  
 
-- 페이지 교체 알고리즘의 종류와 각각의 특징에 대해 설명해 보시오.
+  > 페이지 교체(Page replacement)란 메모리가 꽉 찬 상태(Free frame이 없는 상태)에서 page fault 발생 시, 메모리에 있는 page 중 가장 쓸모 없는 것을 골라 쫓아내고 그 자리에 필요한 page를 올리는 것을 의미한다.  
+
+- 페이지 교체 알고리즘의 종류와 각각의 특징에 대해 설명해 보시오.  
+
+  > **1. OPT ALgorithm**    
+  > Optimal Algorithm은 가장 먼 미래에 참조된 page를 쫓아내는 알고리즘으로 가장 page fault가 적은 알고리즘이다. 실제로 사용되는 것이 아니라 미리 정해진 일련의 input에 대해 실행하는 알고리즘(offline algorithm)으로, 최적의 성능을 보이는 알고리즘이기 때문에 다른 페이지 교체 알고리즘의 성능 상한선 기준이 되는 알고리즘이다.    
+  > **2. FIFO(First-In-First-Out) Algorithm**  
+  > FIFO Algorithm은 물리적 메모리에 가장 먼저 올라온 페이지를 우선적으로 쫓아내는 알고리즘이다. 메모리를 증가하였음에도 page fault가 오히려 늘어나는 현상(FIFO Anomaly)이 발생할 수 있다.  
+  > **3. LRU(Least Recently Used) Algorithm**   
+  > LRU Algorithm은 가장 오래 전에 참조된 것을 지우는 알고리즘이다. 시간지역성(temporal locality)을 이용한 알고리즘으로 실제 메모리 관리 알고리즘에서 가장 많이 사용된다. LRU를 linked list로 구현하면 page를 참조하고 지우는 데 시간복잡도는 O(1)이다.  
+  > **4. LFU(Least Frequently Used) Algorithm**  
+  > LFU Algorithm은 참조 횟수(reference count)가 가장 적은 page를 지우는 알고리즘이다. LRU 처럼 직전 참조 시점만 보는 것이 아니라 장기적인 시간 규모을 보기 때문에 page의 인기도를 좀 더 정확하게 반영할 수 있다. 그러나, 참조 시점의 최근성을 반영하지 못하고 구현이 복잡하다는 특징이 있다. LFU를 Heap으로 구현하면 page를 참조하고 지우는데 시간복잡도는 O(log n)가 된다.  
+  > **5. Clock(NUR/Second chance) Algorithm**  
+  > Paging System에서 OS는 page fault가 발생했을 때만 관여하기 때문에, 페이지가 이미 메모리에 존재하는 때의 참조 정보를 알 수 없어 LRU, LFU 알고리즘을 사용하는 것은 사실 불가능하다. 따라서 Paging System에서 실제로 사용할 수 있도록 개선된 알고리즘이 Clock Algorithm이다.  
+  > Clock Algorithm은 LRU의 근사(approximation) 알고리즘으로, reference bit를 사용해서 쫓아낼 페이지를 선정한다. page들로 구성된 Circular list를 차례대로 지속적으로 탐색하며 Reference bit(해당 페이지가 참조될 때 하드웨어에 의해 1이 되는 bit)를 체크하는데, 1이면 0으로 set한 후 다음으로 이동하고, 0이면 그 페이지를 교체한다.
