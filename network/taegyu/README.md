@@ -24,3 +24,82 @@
     
 - LAN에 대해 설명하세요.
   > 집, 사무실, 학교 등 상대적으로 가까운 거리에 위치한 장치들을 서로 연결한 네트워크를 의미한다. 
+
+- TCP/IP 프로토콜과 각 계층 설명하시오.
+  > Applicaiton : network application에서 생성한 data를 포장해서 메시지로 만든다.  
+  > Transport : source process에서 destination process로 메시지가 잘 전송되도록 한다.
+  > Network : source host로부터 destination host로 전송이 잘 이루어지도록 한다.
+  > Link : 한 hop 사이의 전송이 잘 이루어지게 하도록 한다.
+  > Physical : 실제로 데이터를 실어나르는 역할을 한다.
+  
+
+### ⚡️ Chapter 2-1, 2-2, 2-3
+
+- port란 무엇인가요? Well-Known Port에 대해 설명해주세요.
+  > IP 내에서 각 프로세스를 구분하기 위해 사용하는 번호이다. Port number를 통해 host 내의 어느 프로세스로 접근할 지를 결정하고 접속할 수 있다.  
+  > 대표적인 Well-known Port는 port80 - HTTP server, port25 - Mail server가 있다.
+
+- 클라이언트와 서버의 통신 과정에 대해 설명해주세요.
+  > 1. Client와 Server에서 Socket을 create 한다.
+  > 2. Server 측에서 Socket에 IP와 port를 bind하고 Client의 연결을 대기한다.
+  > 3. Client 측에서 접근하고자 하는 Server의 IP, port number로 connecttion을 한다.
+  > 4. Server 측에서 Client의 connection을 accept 하여 서로 연결된다.
+  > 5. 약속된 프로토콜에 맞게 데이터를 주고 받는다.
+  > 6. 통신이 완료되면 양쪽 모두 socket을 close한다.
+  
+
+- HTTP method 4가지를 설명하시오.
+  > 1. GET : URL을 통해 파일의 경로를 지정하고, Server에게 전달하여 리소스를 조회하는 용도이다.
+  > 2. POST : HTTP request message의 entity body를 통해 데이터를 Server로 전달하여 추가하거나 등록하는 용도이다.
+  > 3. PUT : URL에 등록하고자 하는 데이터와 경로를 지정하고, Server에 전달하여 추가하거나 기존에 존재하면 덮어쓰기 하는 용도이다.
+  > 4. DELETE : URL을 통해 파일의 경로를 지정하고, Server에게 전달하여 해당 경로의 파일을 삭제하는 용도이다.
+
+- HTTP의 GET 방식과 POST 방식을 비교해주세요.
+  > GET 방식은 서버에서 리소스를 조회할 때 사용하고, POST 방식은 서버에 데이터를 추가, 등록할 때 사용한다.  
+  > 웹페이지에 form input이 있을 때는 GET과 POST 모두 input을 서버에 업로드하는 용도로 사용하지만, GET 방식은 input이 URL 말단에 연결되어 전달되는 반면 POST 방식은 data가 request message의 body에 담겨 전달된다.
+
+- HTTP 1.0, 1.1, 2.0 차이점은 무엇인가요?
+  > HTTP 1.0 : GET,POST,HEAD만 지원한다.
+  > HTTP 1.1 : GET,POST,HEAD + PUT,DELETE를 지원한다.
+  > HTTP 2.0 : 
+
+- HTTP의 특징에 대해 설명하시오.
+  > - Client-Server 구조를 가진다.  
+  > - Client/Server가 request/response message를 통해 통신한다.
+  > - Stateless이다. 과거의 Client가 보낸 request history를 저장하고 있지 않는다.  
+  > - Connectionless이다. Client는 Server로부터 response를 받고나면 연결을 유지하지 않고 끊어버린다.
+
+- HTTP와 HTTPS의 차이에 대해 설명하세요.
+  > 
+  
+
+- HTTP의 Status Code의 종류는 어떻게 되나요?
+  > 200 OK
+  > 300 Moved Permanently
+  > 400 Bad Request
+  > 404 Not Found
+  > 505 HTTP Version Not Supported
+
+- HTTP 헤더의 구조에 대해서 설명해 주세요.
+  > header field name: value의 형태를 띈다. 예를 들어 Host: www.github.com, Connection: keep-alive 등으로 쓰인다.
+
+- 주소창에 URL을 치고 엔터를 치면 흐름이 어떻게 되나요?
+  > 1. Client(browser)가 URL에 해당하는 Server의 port 80을 통해 server process에 TCP connection을 연결하고, Server에서 Client의 연결을 accept한다.
+  > 2. Client와 Server가 HTTP request/response message를 통해 데이터를 주고 받는다.
+  > 3. 통신이 완료되면 TCP conncection을 종료한다.
+
+- HTTP는 왜 비연결성인가?
+  > 동시에 수많은 사용자들이 broswer를 사용하더라도 모든 사용자가 끊임없이 Server에 request를 보내는 것이 아니기 때문에 실제로 Server가 동시에 처리하는 요청은 상대적으로 적다. 따라서 연결을 불필요하게 유지하지 않음으로써 서버 자원을 효율적으로 사용하기 위함이다.
+
+- 프록시와 프록시 서버에 대해 설명해주세요.
+  > Server와 Client 사이에서 Web cache의 역할을 하는 서버를 말한다. Server에 요청되는 Client의 request의 일부를 중간에서 처리함으로써 response time과 traffic을 줄이기 위한 용도로 사용된다.
+
+- 클라이언트와 서버는 무엇인가요?
+  > 클라이언트는 서버를 사용하는 사용자이며, 서버는 클라이언트에게 네트워크를 통해 서비스를 제공하는 시스템을 말한다.
+
+- cookie와 session에 대해 설명해주세요.
+  > 두 가지 모두 Web 통신에서 client의 정보를 유지하기 위해 사용되는 방법이다.  
+  > Cookie는 cookie file의 형태로 각 client의 host device에 저장되지만, session은 client가 접속 중인 웹 서버 DB에 저장된다.
+
+- cookie를 쓰는 이유를 설명해주세요.
+  > HTTP는 stateless protocol이므로 과거의 client request history를 기억하고 있지 않기 때문에, Server에서 client의 transaction history를 보관하기 위해 사용한다.
