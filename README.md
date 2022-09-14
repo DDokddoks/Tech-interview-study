@@ -2,7 +2,7 @@
 
 ### 💎About💎
 기술면접 대비 CS Study (2022.06.01 ~ 진행 중)  
-[CS-Study-Notion](https://www.notion.so/Computer-Science-b9be096ec72a43abb26b9356929e43f3)
+[CS-Study-Notion](https://www.notion.so/dongyeon-0822/DDokddoks-e1a842d2f0034474ba43387a8e1ba4a7)
 
 ### 💥Penalties💥
 1. 지각하지 않기 - 10분당 1000원(3회 지각 시, 결석 1번)
