@@ -69,3 +69,31 @@
 
 - cookie를 쓰는 이유를 설명해주세요.
     > HTTP Protocol 자체는 stateless하지만 server 자체에서 client들의 transaction history를 유지하기 위해 cookie를 사용한다.
+
+### ⚡️ Chapter 2-4, 2-5
+
+- 도메인과 DNS가 무엇인지 설명해주세요.
+    > - 도메인이란 인터넷에 연결된 컴퓨터의 ip를 사람이 쉽게 기억하기 어렵기 때문에 이를 위해서 각 ip에 사람이 쉽게 기억하고 입력할 수 있도록 문자(영문, 한글 등)로 만든 인터넷 주소를 말한다.
+    > - DNS란 모든 network application의 경우 host name을 IP 주소로 mapping 하는 서비스를 제공해주는 시스템을 말한다.
+
+- Domain Name 구조를 설명해주세요.
+    > distributed database를 이용해 mapping 정보를 저장하고 있으며, network 내에서 복잡성을 가능한 network edge로 배제하고자 application-layer protocol로 구현되어 있다.
+
+- Domain Name System 동작과정을 설명해주세요.
+    > 1. host는 원하는 IP 주소를 request한다.
+    > 2. local DNS server에 도달하기 전 cache를 확인하고 만약 cache 내에 mapping 정보가 있다면 이를 reply한다.
+    > 3. 만약 IP 주소가 없다면 local DNS server는 root DNS server로 DNS query request(해당 mapping 정보)을 보낸다.
+    > 4. root DNS server는 DNS query request에 대한 reply(해당 domain의 TLD server)한다.
+    > 5. local DNS server는 root DNS server가 보낸 reply를 가지고 TLD DNS server에 DNS query를 request한다.
+    > 6. TLD DNS server는 request된 DNS query에 대한 reply(해당 domain의 authoritative server)한다.
+    > 7. local DNS server는 TLD DNS server가 보낸 reply를 가지고 authoritative server에 DNS query를 request한다.
+
+- 도메인 이름으로 실제 IP를 어떻게 찾을 수 있는지 흐름을 설명해 주세요.
+    > <b>iterated query 방식</b>
+    > 1. host는 원하는 IP 주소를 request한다.
+    > 2. local DNS server에 도달하기 전 cache를 확인하고 만약 cache 내에 mapping 정보가 있다면 이를 reply한다.
+    > 3. 만약 IP 주소가 없다면 local DNS server는 root DNS server로 DNS query request(해당 mapping 정보)을 보낸다.
+    > 4. root DNS server는 DNS query request에 대한 reply(해당 domain의 TLD server)한다.
+    > 5. local DNS server는 root DNS server가 보낸 reply를 가지고 TLD DNS server에 DNS query를 request한다.
+    > 6. TLD DNS server는 request된 DNS query에 대한 reply(해당 domain의 authoritative server)한다.
+    > 7. local DNS server는 TLD DNS server가 보낸 reply를 가지고 authoritative server에 DNS query를 request한다.
