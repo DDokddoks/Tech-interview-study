@@ -110,3 +110,24 @@
 
 - cookie를 쓰는 이유를 설명해주세요.  
   > HTTP 프로토콜의 특징이자 약점을 보완하기 위해서 사용된다?
+
+
+  ### ⚡️ Chapter 2-4, 2-5
+
+- 도메인과 DNS가 무엇인지 설명해주세요.  
+  > 도메인이란 사용자가 네트워크 서버에 접근하고자 할 때, IP 주소를 대신하여 사용하는 주소이다. DNS(Domain Name System)는 도메인 주소와 IP 주소를 매핑해주는 시스템을 의미한다. 
+
+- Domain Name 구조를 설명해주세요.  
+  > 최상위 계층에 Root DNS Servers, 그 아래 TLD(Top Level DNS) Servers, 그 아래 Authoritative DNS Servers, 그 아래로 인터넷에 연결된 서버들의 연속해서 이어진 계층 구조로 구성되어 있다.  
+  
+- Domain Name System 동작과정을 설명해주세요. 
+  > 1) 웹 브라우저에 도메인 주소를 입력한다.
+  > 2) 컴퓨터는 local DNS server에 도메인 주소의 IP 주소를 요청한다.  
+  > 3-1) Local DNS server에 IP 주소가 있는 경우, 컴퓨터에게 IP 주소를 응답해준다. 
+  > 3-2) Local DNS server에 IP 주소가 없는 경우, Root DNS server에 IP 주소를 요청한다. 
+  > 4) Root DNS server는 '.com'의 주소를 알고 있는 TLD server에게 요청하라고 컴퓨터에게 TLD server의 주소를 알려준다.  
+  > 5) TLD server로 해당 도메인의 주소를 알고 있는 하위계층의 server의 주소를 알려준다. 
+  > 6) 사용자는 최종적으로 IP 주소를 알고 있는 하위 서버로부터 IP 주소를 얻는다.
+
+- 도메인 이름으로 실제 IP를 어떻게 찾을 수 있는지 흐름을 설명해 주세요.  
+  >   
