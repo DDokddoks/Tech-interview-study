@@ -103,3 +103,30 @@
 
 - cookie를 쓰는 이유를 설명해주세요.
   > HTTP는 stateless protocol이므로 과거의 client request history를 기억하고 있지 않기 때문에, Server에서 client의 transaction history를 보관하기 위해 사용한다.
+  
+### ⚡️ Chapter 2-4, 2-5
+
+- 도메인과 DNS가 무엇인지 설명해주세요.  
+  > 인터넷 호스트와 라우터는 IP 주소로 식별되는데, 외우기 어려운 IP 주소 대신 '도메인'이라는 사람이 읽기 쉬운 이름으로 구분하기도 한다. 이때 사용자가 도메인 이름을 통해 접근하면 이를 실제 네트워크 상에서 사용하는 IP 주소로 변환하여 접속해야 하는데, 이러한 변환 시스템을 'DNS'라고 한다.
+
+- Domain Name Server의 구조를 설명해주세요.
+  > 트리 형태의 3단계 계층 구조로 구성되어 있다.  
+  > - 최상단에는 Root DNS Server들이 존재한다. .com, .net, .edu 등 가장 큰 범위의 각 도메인을 담당하고 있는 TLD server들이 누구인지에 대한 정보를 가지고 있다. 
+  > - 중간단에는 TLD(Top Level Domain) server들이 존재한다. .com, .net 등의 큰 도메인이나, .kr, .jp 등의 국가 도메인을 하나씩 담당하고 있는 서버이다. 각 도메인 내의 속한 기관, 그룹 도메인들을 담당하는 각 authoritative DNS server들이 누구인지에 대한 정보를 가지고 있다.  
+  > - 최하단에는 authoritative DNS server들이 존재한다. 어떤 기관, 그룹 내의 모든 host들에 대한 hostname -> IP 매핑 정보를 보유하고 있다.  
+  > - 계층 구조에 속하지 않지만 local DNS name server가 존재한다. host와 DNS 사이에 존재하며 일종의 proxy의 역할을 수행한다.
+
+- Domain Name System 동작과정을 설명해주세요.  
+  > - host에서 어떠한 hostname에 대한 IP 주소 변환을 요청한다.
+  > - local DNS server는 자신이 해당 hostname에 대한 IP 주소 변환 정보를 이미 가지고 있다면 알려주고, 그렇지 않으면 다른 DNS server에 접근한다.
+  > - 이후 단계는 iterated query / recursive query 방식에 따라 나뉜다.
+  > **iterated query** : "나는 모르니까, 아는 애를 알려줄게."
+  > > - local DNS server는 root DNS server에게 요청하여 다음으로 접근할 TLD server 정보를 얻는다.
+  > > - TLD server에 접근하여 다음으로 접근할 authoritative 정보를 얻는다.
+  > > - authoritative DNS server에 접근하여 실제 hostname -> IP 매핑 정보를 얻는다.
+  > > - host에게 정보를 전달한다.
+  > **recursive query** : "나는 모르니까, 내가 알아올게."
+  > > - local DNS server가 root DNS server에게 정보를 요청한다.
+  > > - root DNS server가 다시 TLD server에게 정보를 요청한다.
+  > > - TLD server가 다시 authoritative DNS server에 접근하여 실제 hostname -> IP 매핑 정보를 얻는다.
+  > > - 차례로 되돌아가서 host에게 정보를 전달한다. 
