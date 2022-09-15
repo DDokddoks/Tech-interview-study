@@ -87,3 +87,10 @@ Physical : 실제로 데이터를 실어나른다.
 
 - cookie와 session에 대해 설명해주세요.  
     > cookie와 session 모두 HTTP의 특징인 stateless를 보완하기 위해 사용한다. cookie와 session의 차이점은 크게 상태 정보를 저장하는 위치이며 cookie는 클라이언트에 저장하고, session은 서버에 저장한다. cookie는 사용자의 정보가 client에 저장되어 HTTP 헤더에 쿠키를 넣어 request를 하는 반면, session은 서버에 저장되는 데이터로 서버에 접속할 때 받은 세션 ID 쿠키를 사용하여 저장하고 이를 헤더에 넣어 서버에 저장된 정보를 확인한다. 보안성은 세션이 높으나 속도는 쿠키가 빠르다.
+
+### ⚡️ Chapter 2-4, 2-5
+
+- 도메인과 DNS가 무엇인지 설명해주세요.  
+- Domain Name 구조를 설명해주세요.  
+- Domain Name System 동작과정을 설명해주세요.  
+- 도메인 이름으로 실제 IP를 어떻게 찾을 수 있는지 흐름을 설명해 주세요.  
