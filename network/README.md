@@ -91,6 +91,30 @@ Physical : 실제로 데이터를 실어나른다.
 ### ⚡️ Chapter 2-4, 2-5
 
 - 도메인과 DNS가 무엇인지 설명해주세요.  
+    > 도메인이란, 인터넷에 연결된 호스트의 IP를 사람이 쉽게 기억하기 어렵기 때문에 이를 위해서 각 IP에 사람이 쉽게 기억하고 입력할 수 있도록 문자(영문, 한글 등)로 만든 인터넷 주소를 의미한다. 예를 들어 114.108.157.19처럼 되어있는 실제 IP 주소를 daum.net으로 하는 것과 같은 것이다.   
+
+    >  DNS(Domain Name System)란, 도메인 주소와 IP 주소를 매핑해주는 데이터베이스 시스템을 의미한다.  
+
+
 - Domain Name 구조를 설명해주세요.  
-- Domain Name System 동작과정을 설명해주세요.  
-- 도메인 이름으로 실제 IP를 어떻게 찾을 수 있는지 흐름을 설명해 주세요.  
+    > 트리 형태의 계층 구조로 구성되어 있다.  
+
+    > - 최상단에는 Root DNS Server들이 존재한다. .com, .net, .edu 등 가장 큰 범위의 각 도메인을 담당하고 있는 TLD server들이 누구인지에 대한 정보를 가지고 있다. 
+
+    > - 두 번째단에는 TLD(Top Level Domain) server들이 존재한다. .com, .net 등의 큰 도메인이나, .kr, .jp 등의 국가 도메인을 하나씩 담당하고 있는 서버이다. 각 도메인 내의 속한 기관, 그룹 도메인들을 담당하는 각 authoritative DNS server들이 누구인지에 대한 정보를 가지고 있다. 
+
+    > - 세 번째단에는 authoritative DNS server들이 존재한다. 어떤 기관, 그룹 내의 모든 host들에 대한 hostname -> IP 매핑 정보를 보유하고 있다. 
+
+    > - 최하단에는 host가 존재하게 된다. 
+
+    > - 계층 구조에 속하지 않지만 local DNS name server가 존재한다. host와 DNS 사이에 존재하며 일종의 proxy의 역할을 수행한다.  
+
+
+- Domain Name System 동작과정을 설명해주세요.
+    > 1) 웹 브라우저에 도메인 주소(ex> www.google.com)를 입력한다.  
+    > 2) host는 local DNS server에 도메인 주소의 IP 주소를 요청한다.  
+    > 2-1) Local DNS server에 IP 주소가 있는 경우, 컴퓨터에게 IP 주소를 응답해준다.  
+    > 2-2) Local DNS server에 IP 주소가 없는 경우, Root DNS server에 IP 주소를 요청한다.  
+    > 3) Root DNS server는 '.com'의 TLD server에게 요청하라고 Local DNS server에게 TLD server의 주소를 알려준다.  
+    > 4) TLD server는 해당 도메인의 authoritative DNS server에게 요청하라고 Local DNS server에게 authoritative DNS server의 주소를 알려준다.  
+    > 5) 위의 과정을 반복하다보면 DNS Server가 알고자하는 IP 주소를 알고 있는 name 주소에 도달해서 IP 주소를 얻을 수 있게 된다.
