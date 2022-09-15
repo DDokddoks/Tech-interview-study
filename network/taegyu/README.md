@@ -119,13 +119,13 @@
 - Domain Name System 동작과정을 설명해주세요.  
   > - host에서 어떠한 hostname에 대한 IP 주소 변환을 요청한다.
   > - local DNS server는 자신이 해당 hostname에 대한 IP 주소 변환 정보를 이미 가지고 있다면 알려주고, 그렇지 않으면 다른 DNS server에 접근한다.
-  > - 이후 단계는 iterated query / recursive query 방식에 따라 나뉜다.
-  > **iterated query** : "나는 모르니까, 아는 애를 알려줄게."
+  > - 이후 단계는 iterated query / recursive query 방식에 따라 나뉜다.  
+  > - **iterated query** : "나는 모르니까, 아는 애를 알려줄게."
   > > - local DNS server는 root DNS server에게 요청하여 다음으로 접근할 TLD server 정보를 얻는다.
   > > - TLD server에 접근하여 다음으로 접근할 authoritative 정보를 얻는다.
   > > - authoritative DNS server에 접근하여 실제 hostname -> IP 매핑 정보를 얻는다.
-  > > - host에게 정보를 전달한다.
-  > **recursive query** : "나는 모르니까, 내가 알아올게."
+  > > - host에게 정보를 전달한다.  
+  > - **recursive query** : "나는 모르니까, 내가 알아올게."  
   > > - local DNS server가 root DNS server에게 정보를 요청한다.
   > > - root DNS server가 다시 TLD server에게 정보를 요청한다.
   > > - TLD server가 다시 authoritative DNS server에 접근하여 실제 hostname -> IP 매핑 정보를 얻는다.
