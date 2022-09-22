@@ -118,3 +118,22 @@ Physical : 실제로 데이터를 실어나른다.
     > 3) Root DNS server는 '.com'의 TLD server에게 요청하라고 Local DNS server에게 TLD server의 주소를 알려준다.  
     > 4) TLD server는 해당 도메인의 authoritative DNS server에게 요청하라고 Local DNS server에게 authoritative DNS server의 주소를 알려준다.  
     > 5) 위의 과정을 반복하다보면 DNS Server가 알고자하는 IP 주소를 알고 있는 name 주소에 도달해서 IP 주소를 얻을 수 있게 된다.
+
+
+### ⚡️ Chapter 2-6, 3-1
+
+- TCP와 UDP의 특징과 차이점을 설명해주세요.
+
+- TCP/UDP 헤더 구조
+
+- TCP를 사용하는 대표적인 프로토콜은 무엇인가요?
+
+- TCP 연결 끊김 탐지에는 무엇이 있는지 설명하시오.
+
+- TCP의 연결 설정 과정(3단계)과 연결 종료 과정(4단계)이 단계가 차이나는 이유?
+
+- UDP에서 신뢰도를 보장하는 방법을 설명해주세요.
+
+- UDP 서버의 특징에 대해서 설명하세요.
+
+- UDP는 어느 상황에서 사용하는지 설명하세요.
