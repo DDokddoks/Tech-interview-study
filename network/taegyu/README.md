@@ -130,3 +130,46 @@
   > > - root DNS server가 다시 TLD server에게 정보를 요청한다.
   > > - TLD server가 다시 authoritative DNS server에 접근하여 실제 hostname -> IP 매핑 정보를 얻는다.
   > > - 차례로 되돌아가서 host에게 정보를 전달한다. 
+  
+  ### ⚡️ Chapter 2-6, 3-1
+
+- TCP와 UDP의 특징과 차이점을 설명해주세요.
+  > TCP : 연결형 서비스(one sender - one receiver, 3-way hand shaking을 통해 연결하고 4-way handshaking을 통해 해제) / 높은 신뢰성(in-order byte stream) / UDP보다 느린 전송 속도 / Full duplex / 흐름 제어, 혼잡 제어 있음
+  > UDP : 비연결형 서비스(client와 server 사이에 connection 불필요) / 낮은 신뢰성(손실 발생, out-of-order delivery) / TCP보다 빠른 전송 속도 / 흐름 제어, 혼잡 제어 없음
+- TCP/UDP 헤더 구조
+  > **TCP header**  
+  > - source port number / destination port number
+  > - sequence number : application data field의 첫 번째 data byte가 이번 connection에서 몇 번째로 읽는 data byte인지를 의미
+  > - acknowedgement number : 상대방이 보낸 데이터에 대한 ack
+  > - head len : header만의 길이 (TCP header는 길이가 가변적)
+  > - receive window : receiver로부터 ack을 받지 않아도 일방적으로 보내도 되는 데이터의 제한 크기 (receiver의 buffer 사이즈)
+  > - checksum : header fields를 포함한 segement 전체 contents의 오류가 있는 지를 확인하기 위한 field
+  > - flags
+  >   - R, S, F flag : connection establish에 대한 비트 (Reset, Sync, Final)
+  >   - A flag : acknowledgement number field에 확인해야 할 ack 값이 있는 지에 대한 여부
+  >   - U, P flag : urgent한 segment인지 여부(즉시 다음 계층으로 보냄) / 바로 push해야 하는지 여부(해당 segment를 포함하여 버퍼에 있는 모든 segment를 즉시 다음 계층으로 push)  
+  > - urgent pointer : urgent한 데이터의 위치 (U flag가 설정된 경우에만 유효)
+  > - options : 가변적인 fields  
+  > **UDP header**  
+  > - source port number / destination port number
+  > - length : header를 포함한 UDP segment 길이
+  > - checksum : header fields를 포함한 segement 전체 contents의 오류가 있는 지를 확인하기 위한 field  
+  
+- TCP를 사용하는 대표적인 프로토콜은 무엇인가요?
+  > 
+
+- TCP 연결 끊김 탐지에는 무엇이 있는지 설명하시오.
+  > 
+
+- UDP에서 신뢰도를 보장하는 방법을 설명해주세요.
+  > application layer에 reliablility를 추가한다.
+
+- UDP 서버의 특징에 대해서 설명하세요.
+  > - Connection이 불필요하기 때문에 서버 소켓과 클라이언트 소켓의 구분이 없다.
+  > - 크기가 고정된 datagram 단위로 전송되며, 크기를 초과하면 잘라서 보낸다.
+  > - 서버와 클라이언트가 1:1, 1:N, N:M 으로 연결될 수 있다.
+  > - 신뢰성이 요구되는 서비스보다 성능이 중요한 서비스를 위해 사용된다.
+
+- UDP는 어느 상황에서 사용하는지 설명하세요.
+  > - 손실에 대한 내성이 있고, 전송률이 중요한 streaming multimedia app
+  > - 한번만 request/response를 주고받으면 되는 DNS
