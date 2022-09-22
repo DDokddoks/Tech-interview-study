@@ -123,17 +123,48 @@ Physical : 실제로 데이터를 실어나른다.
 ### ⚡️ Chapter 2-6, 3-1
 
 - TCP와 UDP의 특징과 차이점을 설명해주세요.
+    > **TCP (Transmission Control Protocol) :**
+    > - 연결형 서비스(Connection-oriented)로 스트림 방식을 제공한다.
+    > - 서버와 클라이언트를 1:1로 연결한다.
+    > - 신뢰성이 높지만 속도가 느리다.
+    > - 변환된 데이터의 순서가 보장된다.
+    > - server와 client 간의 handshaking이 필수적이다.
+    > - 흐름 제어와 혼잡 제어가 있다.
+    
+    > **UDP (User Datagram Protocol) :**
+    > - 비연결형 서비스(connectionless)로 데이터그램 방식을 제공한다.
+    > - 서버와 클라이언트는 1:1, 1:N, N:M 등으로 연결될 수 있다.
+    > - 신뢰성이 낮지만 속도가 빠르다.
+    > - 변환된 데이터가 손실되거나 순서가 무작위로 수신될 수 있다.
+    > - server와 client 간의 handshaking이 없다.
+    > - 흐름 제어와 혼잡 제어가 없다.
+    > - server socket과 client socket의 구분이 없다.
 
 - TCP/UDP 헤더 구조
+  > **TCP header**  
+  > - source port number / destination port number
+  > - sequence number : application data field의 첫 번째 data byte가 이번 connection에서 몇 번째로 읽는 data byte인지를 의미
+  > - acknowedgement number : 상대방이 보낸 데이터에 대한 ack
+  > - head length : header만의 길이 (TCP header는 길이가 가변적)
+  > - receive window : receiver로부터 ack을 받지 않아도 일방적으로 보내도 되는 데이터의 제한 크기 (receiver의 buffer 사이즈)
+  > - checksum : header fields를 포함한 segement 전체 contents의 오류가 있는 지를 확인하기 위한 field
+  > - flags
+  >   - R, S, F flag : connection establish에 대한 비트 (Reset, Sync, Final)
+  >   - A flag : acknowledgement number field에 확인해야 할 ack 값이 있는 지에 대한 여부
+  >   - U, P flag : urgent한 segment인지 여부(즉시 다음 계층으로 보냄) / 바로 push해야 하는지 여부(해당 segment를 포함하여 버퍼에 있는 모든 segment를 즉시 다음 계층으로 push)  
+  > - urgent pointer : urgent한 데이터의 위치 (U flag가 설정된 경우에만 유효)
+  > - options : 가변적인 fields  
+  
+  > **UDP header**  
+  > - source port number / destination port number
+  > - length : header를 포함한 UDP segment 길이
+  > - checksum : header fields를 포함한 segement 전체 contents의 오류가 있는 지를 확인하기 위한 field  
 
-- TCP를 사용하는 대표적인 프로토콜은 무엇인가요?
-
-- TCP 연결 끊김 탐지에는 무엇이 있는지 설명하시오.
-
-- TCP의 연결 설정 과정(3단계)과 연결 종료 과정(4단계)이 단계가 차이나는 이유?
-
-- UDP에서 신뢰도를 보장하는 방법을 설명해주세요.
-
-- UDP 서버의 특징에 대해서 설명하세요.
+- TCP는 어느 상황에서 사용하는지 설명하세요.
+    > 웹이나 이메일과 같이 데이터의 신뢰성과 정확성이 중요한 애플리케이션에서 TCP를 사용한다.
 
 - UDP는 어느 상황에서 사용하는지 설명하세요.
+    > 순서는 보장해주지 못하지만 빠른 요청과 응답이 필요한 실시간 응용에 적합하기 때문에 실시간 동영상 플레이어나 게임 또는 한번만 request/response를 주고받으면 되는 DNS에서 사용된다.
+
+- UDP에서 신뢰도를 보장하는 방법을 설명해주세요.
+    > application layer에 reliability를 직접 구현한 reliable UDP가 있다.
