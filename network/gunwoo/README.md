@@ -97,3 +97,31 @@
     > 5. local DNS server는 root DNS server가 보낸 reply를 가지고 TLD DNS server에 DNS query를 request한다.
     > 6. TLD DNS server는 request된 DNS query에 대한 reply(해당 domain의 authoritative server)한다.
     > 7. local DNS server는 TLD DNS server가 보낸 reply를 가지고 authoritative server에 DNS query를 request한다.
+
+### ⚡️ Chapter 2-6, 3-1
+
+- TCP와 UDP의 특징과 차이점을 설명해주세요.
+    > - UDP는 connectionless하며 unreilabe 하다. 속도가 TCP에 비해 빠르기 때문에 소규모 데이터 통신에 적합하며, UDP server와 UDP client 간의 handshaking이 없다. 또한 각 segment를 독립적으로 주고 받기 때문에 이전에 보낸 segment를 기억하지 않는다. 그리고 best-effort service를 제공하기 때문에 network가 segment를 drop하는 경우가 발생하기도 하며 순서가 뒤엉키기도 한다.
+    > - TCP는 connection-oriented하며 reliable 하다. 속도가 UDP에 비해 느리기 때문에 대규모 데이터 통신에 적합하며, TCP server와 TCP client 간의 handshaking이 필수적이다. point-to-point로 sender와 receiver가 각각 하나씩만 존재하며 user의 message를 byte-stream으로 보기 때문에 in-order byte stream의 특징을 가진다. 또 일정량의 throughput을 보장하기 위해 pipelined 되어 있으며, server와 client 사이에 양방향으로 데이터가 흐르는 full duplex data 특징을 가진다. 이외에도 flow control이나 congestion control이 일어난다.
+
+- TCP/UDP 헤더 구조
+    > - UDP 헤더 구조는 출발지의 포트 번호, 도착지의 포트 번호, 전체 길이, checksum, application data로 이루어져 있다.
+    > - TCP 헤더 구조는 출발지의 포트 번호, 도착지의 포트 번호, sequence 번호, acknowledgement 번호, flag, window의 크기, checksum, urgent pointer, 그 외 가변적인 option, application data로 이루어져 있으며 이때 고정된 header 부분의 길이는 20 byte이다.
+
+- TCP를 사용하는 대표적인 프로토콜은 무엇인가요?
+    > TCP는 파일 전송과 같은 경우에 주로 사용되므로 FTP 프로토콜이 대표적이다.
+
+- TCP 연결 끊김 탐지에는 무엇이 있는지 설명하시오.
+    > ???
+
+- TCP의 연결 설정 과정(3단계)과 연결 종료 과정(4단계)이 단계가 차이나는 이유?
+    >  TCP의 연결 종료 과정에서 client가 데이터 전송을 마쳤다고 하더라도 server는 아직 보낼 데이터가 남아 있을 수 있기 때문에 일단 FIN에 대한 ACK만 보내고, 데이터를 모두 전송한 후에 자신도 FIN 메세지를 보내기 때문이다.
+
+- UDP에서 신뢰도를 보장하는 방법을 설명해주세요.
+    > ???
+
+- UDP 서버의 특징에 대해서 설명하세요.
+    > server와 client 간의 handshaking이 없으며, connectionless 하다. 효율과 성능을 중요시하기 때문에 패킷이 유실되는 경우가 발생할 수 있으며, 패킷의 순서가 뒤죽박죽 섞이기도 한다.
+
+- UDP는 어느 상황에서 사용하는지 설명하세요.
+    > 신뢰할 수 없는 연결 통신이지만 속도가 빠르다는 장점이 있으므로 소규모로 이루어지는 데이터 통신 상황에서 사용된다.
