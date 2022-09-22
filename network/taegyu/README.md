@@ -150,6 +150,7 @@
   >   - U, P flag : urgent한 segment인지 여부(즉시 다음 계층으로 보냄) / 바로 push해야 하는지 여부(해당 segment를 포함하여 버퍼에 있는 모든 segment를 즉시 다음 계층으로 push)  
   > - urgent pointer : urgent한 데이터의 위치 (U flag가 설정된 경우에만 유효)
   > - options : 가변적인 fields  
+  
   > **UDP header**  
   > - source port number / destination port number
   > - length : header를 포함한 UDP segment 길이
